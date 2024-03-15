@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player_Controller : MonoBehaviour
@@ -15,7 +16,9 @@ public class Player_Controller : MonoBehaviour
     Vector3 movement;
     private bool Isonground;
     private Animator Anim;
-    private float jumpspeed = 10f;
+    [SerializeField]
+    private float jumpspeed = 2f;
+    private bool isonground;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,9 +44,36 @@ public class Player_Controller : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationspeed * Time.deltaTime);
         }
         Anim.SetFloat("movementValue",movementAmount,0.1f,Time.deltaTime);
-        if (Input.GetKeyDown(KeyCode.Space))    
+        
+
+
+        if (Input.GetKeyDown(KeyCode.Space) & isonground)    
         {
             playerRb.AddForce(Vector3.up * jumpspeed,ForceMode.Impulse);
+            isonground = false;
+        }
+        limitmovement();
+
+
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isonground = true;
+        }
+    }
+    void limitmovement()
+
+    {
+        if(transform.position.z > -0.8f)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, -0.8f);
+
+        }
+        if(transform.position.x < 7.7f)
+        {
+            transform.position = new Vector3(7.7f, transform.position.y,transform.position.z);
         }
     }
 }
