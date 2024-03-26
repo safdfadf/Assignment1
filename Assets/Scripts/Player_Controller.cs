@@ -33,6 +33,7 @@ public class Player_Controller : MonoBehaviour
         
         HorizontalInput = Input.GetAxis("Horizontal");
         VerticalInput = Input.GetAxis("Vertical");
+
         float movementAmount =Mathf.Clamp01( Mathf.Abs(HorizontalInput) + Mathf.Abs(VerticalInput));
         movement = new Vector3(HorizontalInput, 0, VerticalInput).normalized;
         
@@ -52,6 +53,7 @@ public class Player_Controller : MonoBehaviour
             playerRb.AddForce(Vector3.up * jumpspeed,ForceMode.Impulse);
             isonground = false;
         }
+        
         limitmovement();
 
 
