@@ -9,6 +9,7 @@ public class Player_Inventory : MonoBehaviour
     public int numberofGears { get; private set; }
     public UnityEvent<Player_Inventory> OnGearCollected;
     public int Gearneeded = 4;
+    public Light[] lightTurnOn;
     public void GearsCollected()
     {
         numberofGears++;
@@ -27,8 +28,14 @@ public class Player_Inventory : MonoBehaviour
     }
     void ActivateSwitch()
     {
-        //logic for lights on and Game over
+        //logic for lights 
         Debug.Log("Light On, Game over");
+        foreach(Light light in lightTurnOn)
+        {
+            light.enabled = true;
+        }
+        //Load Next Level
+        FindObjectOfType<GameManager>().NextLevel();
     }
 
     
