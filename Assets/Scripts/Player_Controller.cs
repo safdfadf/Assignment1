@@ -19,6 +19,7 @@ public class Player_Controller : MonoBehaviour
     [SerializeField]
     private float jumpspeed = 2f;
     private bool isonground;
+    private bool moving= true;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,8 +38,9 @@ public class Player_Controller : MonoBehaviour
         float movementAmount =Mathf.Clamp01( Mathf.Abs(HorizontalInput) + Mathf.Abs(VerticalInput));
         movement = new Vector3(HorizontalInput, 0, VerticalInput).normalized;
         
-        if (movementAmount>0)
+        if (movementAmount>0 && moving)
         {
+            
             playerRb.velocity = movement * speed * Time.deltaTime;
 
             Quaternion targetRotation = Quaternion.LookRotation(-movement);
@@ -48,10 +50,15 @@ public class Player_Controller : MonoBehaviour
         
 
 
-        if (Input.GetKeyDown(KeyCode.Space) & isonground)    
+        if (Input.GetKeyDown(KeyCode.Space) && isonground )    
         {
+
             playerRb.AddForce(Vector3.up * jumpspeed,ForceMode.Impulse);
             isonground = false;
+        }
+        if(!isonground)
+        {
+            moving = false;
         }
         
         limitmovement();
@@ -63,6 +70,7 @@ public class Player_Controller : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isonground = true;
+            moving = true;
         }
     }
     void limitmovement()
