@@ -14,6 +14,7 @@ public class Player_Inventory : MonoBehaviour
     public bool hasReachedSwitch = false;
     public float TimeLimit = 5f;
     public float timer;
+    private Animator Anim;
     public void GearsCollected()
     {
         numberofGears++;
@@ -26,6 +27,7 @@ public class Player_Inventory : MonoBehaviour
     {
         timer = TimeLimit;
         gameManager = FindObjectOfType<GameManager>();
+        Anim = GetComponent<Animator>();
     }
     private void Update()
     {
@@ -34,6 +36,7 @@ public class Player_Inventory : MonoBehaviour
             timer -= Time.deltaTime;
             if(timer <= 0 )
             {
+                Anim.SetBool("GameOver", true);
                 gameManager.GameOver();
             }
         }
@@ -55,6 +58,7 @@ public class Player_Inventory : MonoBehaviour
             light.enabled = true;
         }
         //LevelWon
+        Anim.SetBool("Victory", true);
         Invoke("CompleteLevel",5);
     }
     void CompleteLevel()

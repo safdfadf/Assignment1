@@ -20,6 +20,10 @@ public class Player_Controller : MonoBehaviour
     private float jumpspeed = 2f;
     private bool isonground;
     private bool moving= true;
+    private float currentspeed;
+    [SerializeField]
+    private float speedmultiplier;
+    public bool isSprinting = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,8 +44,16 @@ public class Player_Controller : MonoBehaviour
         
         if (movementAmount>0 && moving)
         {
+            if(isSprinting)
+            {
+                currentspeed= speed * speedmultiplier;
+            }
+            else
+            {
+                currentspeed = speed;
+            }
             
-            playerRb.velocity = movement * speed * Time.deltaTime;
+            playerRb.velocity = movement * currentspeed * Time.deltaTime;
 
             Quaternion targetRotation = Quaternion.LookRotation(-movement);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationspeed * Time.deltaTime);
@@ -55,10 +67,19 @@ public class Player_Controller : MonoBehaviour
 
             playerRb.AddForce(Vector3.up * jumpspeed,ForceMode.Impulse);
             isonground = false;
+            Anim.SetBool("IsJumping", true);
         }
         if(!isonground)
         {
             moving = false;
+        }
+        if(Input.GetKeyDown(KeyCode.LeftShift) && isonground) 
+        {
+            isSprinting = true; 
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            isSprinting = false;
         }
         
         limitmovement();
@@ -71,6 +92,7 @@ public class Player_Controller : MonoBehaviour
         {
             isonground = true;
             moving = true;
+            Anim.SetBool("IsJumping", false);
         }
     }
     void limitmovement()

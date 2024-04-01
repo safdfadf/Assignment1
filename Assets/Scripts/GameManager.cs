@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
 {
     private bool Gamehasended= false;
     public GameObject LevelCompleteUI;
+    public GameObject GameOverUI;
+   
+    
  public void LevelWon()
     {
         LevelCompleteUI.SetActive(true);
@@ -17,9 +20,15 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("GameOver");
             Gamehasended = true;
-            Invoke("Restart", 3f);
+
+            Invoke("CallGameOverUi", 5);
+          
 
         }
+    }
+    void CallGameOverUi()
+    {
+        GameOverUI.SetActive(true);
     }
     public void Restart()
     {
