@@ -25,13 +25,13 @@ public class DoorInteraction : MonoBehaviour
 
     IEnumerator UpdateTextNextFrame()
     {
-        yield return null; // Wait for the next frame
-        UpdateInteractionText(); // Then update the text
+        yield return null; 
+        UpdateInteractionText(); 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Ensure your player GameObject is tagged as "Player"
+        if (other.CompareTag("Player"))
         {
             TogglePlayerProximity(true);
         }
@@ -52,11 +52,11 @@ public class DoorInteraction : MonoBehaviour
 
         if (isNear)
         {
-            UpdateInteractionText(); // Update text immediately when player is near
+            UpdateInteractionText(); 
         }
     }
 
-    // This method updates the interaction text based on the doors' states
+    
     void UpdateInteractionText()
     {
         if (leftDoor.isOpen || rightDoor.isOpen) // Check if any of the doors are open

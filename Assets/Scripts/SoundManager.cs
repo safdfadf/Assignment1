@@ -5,7 +5,7 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance { get; private set; }
 
     public AudioSource backgroundMusic;
-    public AudioClip winMusicClip; // Add this line
+    public AudioClip winMusicClip; 
 
     private AudioSource audioSource;
 
@@ -15,7 +15,7 @@ public class SoundManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            audioSource = GetComponent<AudioSource>(); // Ensure there's an AudioSource component attached to the same GameObject
+            audioSource = GetComponent<AudioSource>(); 
         }
         else
         {
@@ -36,7 +36,7 @@ public class SoundManager : MonoBehaviour
         backgroundMusic.Stop();
     }
 
-    // Add this method
+    
     public void PlayWinMusic()
     {
         if (audioSource != null && winMusicClip != null)

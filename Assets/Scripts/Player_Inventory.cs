@@ -70,9 +70,9 @@ public class Player_Inventory : MonoBehaviour
         OnGearCollected.Invoke(this);
     }
 
-    // Add this method to play win music
+    
     private void PlayWinMusic()
     {
-        SoundManager.Instance.PlayWinMusic(); // Make sure the SoundManager script is correctly set up with a public PlayWinMusic method
+        SoundManager.Instance.PlayWinMusic(); 
     }
 }

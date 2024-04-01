@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenuUI; // Make sure this is assigned in the Inspector
+    public GameObject pauseMenuUI; 
 
     private bool isPaused = false;
 
@@ -43,7 +43,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Restart()
     {
-        Time.timeScale = 1f; // Make sure to reset the time scale to normal before loading.
+        Time.timeScale = 1f; 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

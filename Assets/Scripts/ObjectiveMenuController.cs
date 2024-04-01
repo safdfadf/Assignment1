@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class ObjectiveMenuController : MonoBehaviour
 {
-    public GameObject objectiveMenuUI; // Assign in the Inspector
+    public GameObject objectiveMenuUI; 
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         // Initially show the objective menu
@@ -19,7 +19,7 @@ public class ObjectiveMenuController : MonoBehaviour
 
     void Update()
     {
-        // After the initial 5 seconds, check if the Tab key is being held down to show/hide the objective menu
+        
         // Note: We're checking if the coroutine is not running to avoid conflicts
         if (Input.GetKey(KeyCode.Tab))
         {
@@ -33,10 +33,10 @@ public class ObjectiveMenuController : MonoBehaviour
 
     private IEnumerator HideMenuAfterDelay(float delay)
     {
-        // Wait for the specified delay
+        
         yield return new WaitForSeconds(delay);
 
-        // Only hide the menu if the Tab key is not currently being pressed
+        
         // This ensures that if the player presses the Tab right before the delay ends, the menu stays visible
         if (!Input.GetKey(KeyCode.Tab))
         {
