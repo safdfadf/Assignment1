@@ -15,56 +15,64 @@ public class Player_Inventory : MonoBehaviour
     public float TimeLimit = 5f;
     public float timer;
     private Animator Anim;
-    public void GearsCollected()
-    {
-        numberofGears++;
-        OnGearCollected.Invoke(this);
-       /* if(numberofGears>= Gearneeded)
-        {
-        }*/
-    }
+
     private void Start()
     {
         timer = TimeLimit;
         gameManager = FindObjectOfType<GameManager>();
         Anim = GetComponent<Animator>();
     }
+
     private void Update()
     {
-        if(!hasReachedSwitch)
+        if (!hasReachedSwitch)
         {
             timer -= Time.deltaTime;
-            if(timer <= 0 )
+            if (timer <= 0)
             {
                 Anim.SetBool("GameOver", true);
                 gameManager.GameOver();
             }
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Switch") && numberofGears >= Gearneeded)
         {
             ActivateSwitch();
-
         }
     }
+
     void ActivateSwitch()
     {
-        //logic for lights 
-        Debug.Log("Light On, LevelWon");
-        foreach(Light light in lightTurnOn)
+        // Logic for lights
+        Debug.Log("Light On, Level Won");
+        foreach (Light light in lightTurnOn)
         {
             light.enabled = true;
         }
-        //LevelWon
+
+        // Level Won
         Anim.SetBool("Victory", true);
-        Invoke("CompleteLevel",5);
+        PlayWinMusic(); // Play win music
+        Invoke("CompleteLevel", 5); // Delay the level completion to allow win animation/music
     }
+
     void CompleteLevel()
     {
         FindObjectOfType<GameManager>().LevelWon();
     }
 
-    
+    public void GearsCollected()
+    {
+        numberofGears++;
+        OnGearCollected.Invoke(this);
+    }
+
+    // Add this method to play win music
+    private void PlayWinMusic()
+    {
+        SoundManager.Instance.PlayWinMusic(); // Make sure the SoundManager script is correctly set up with a public PlayWinMusic method
+    }
 }
