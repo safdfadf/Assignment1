@@ -43,5 +43,6 @@ public class PauseMenuController : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
-}
+    }
 
+}
