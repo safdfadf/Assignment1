@@ -36,7 +36,7 @@ public class Player_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //BREAK THIS INTO SMALLER FUNCTIONS
         HorizontalInput = Input.GetAxis("Horizontal");
         VerticalInput = Input.GetAxis("Vertical");
 
@@ -110,7 +110,7 @@ public class Player_Controller : MonoBehaviour
         }
         if(transform.position.x < 7.7f)
         {
-            transform.position = new Vector3(7.7f, transform.position.y,transform.position.z);
+           // transform.position = new Vector3(7.7f, transform.position.y,transform.position.z);
         }
     }
 }
