@@ -20,12 +20,12 @@ public class ObjectiveMenuController : MonoBehaviour
     void Update()
     {
         
-        // Note: We're checking if the coroutine is not running to avoid conflicts
+        
         if (Input.GetKey(KeyCode.Tab))
         {
             objectiveMenuUI.SetActive(true);
         }
-        else if (Time.time > 5f) // Check if more than 5 seconds have passed since the game started
+        else if (Time.time > 5f) // To Ensure if more than 5 seconds have passed since the game started
         {
             objectiveMenuUI.SetActive(false);
         }
