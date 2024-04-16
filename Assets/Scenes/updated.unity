@@ -4873,6 +4873,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3798097687348426546, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
+      propertyPath: speed
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 3798097687348426549, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
       propertyPath: m_Size.x
       value: 1.4513775
@@ -4888,6 +4892,14 @@ PrefabInstance:
     - target: {fileID: 3798097687348426549, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
       propertyPath: m_Center.y
       value: 0.99717623
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798097687348426550, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
+      propertyPath: timeLimit
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798097687348426550, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
+      propertyPath: Gearneeded
+      value: 96
       objectReference: {fileID: 0}
     - target: {fileID: 3798097687348426550, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
       propertyPath: lightTurnOn.Array.data[0]

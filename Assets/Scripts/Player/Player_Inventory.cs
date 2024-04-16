@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.PlasticSCM.Editor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,18 +10,22 @@ public class Player_Inventory : MonoBehaviour
     public int numberofGears { get; private set; }
     private GameManager gameManager;
     public UnityEvent<Player_Inventory> OnGearCollected;
-    public int Gearneeded = 4;
+    [SerializeField]
+    int gearsNeeded = 4;
     public Light[] lightTurnOn;
     public bool hasReachedSwitch = false;
-    public float TimeLimit = 5f;
+    [SerializeField] float timeLimit = 5f;
     public float timer;
     private Animator Anim;
 
     private void Start()
     {
-        timer = TimeLimit;
+        timer = timeLimit;
         gameManager = FindObjectOfType<GameManager>();
         Anim = GetComponent<Animator>();
+        Collectable[] collectables  = FindObjectsOfType<Collectable>();
+        gearsNeeded = collectables.Length;
+
     }
 
     private void Update()
@@ -38,7 +43,7 @@ public class Player_Inventory : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Switch") && numberofGears >= Gearneeded)
+        if (collision.gameObject.CompareTag("Switch") && numberofGears >= gearsNeeded)
         {
             ActivateSwitch();
         }

@@ -69,7 +69,7 @@ public class Player_Controller : MonoBehaviour
             currentspeed = speed;
         }
        
-        playerRb.velocity = movement * currentspeed * Time.deltaTime;
+        playerRb.velocity = movement * currentspeed;
     }
 
     void UpdatePlayerRotation()// Player Rotation
