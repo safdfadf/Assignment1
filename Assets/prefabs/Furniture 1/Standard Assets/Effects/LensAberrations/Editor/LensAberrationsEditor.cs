@@ -1,19 +1,26 @@
-using UnityEditor;
-using UnityEngine;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 namespace UnityStandardAssets.CinematicEffects
 {
     [CustomEditor(typeof(LensAberrations))]
     public class LensAberrationsEditor : Editor
     {
-        private Dictionary<FieldInfo, List<SerializedProperty>> m_GroupFields = new Dictionary<FieldInfo, List<SerializedProperty>>();
+        private readonly Dictionary<FieldInfo, List<SerializedProperty>> m_GroupFields = new();
 
-        private LensAberrations concreteTarget
+        private LensAberrations concreteTarget => target as LensAberrations;
+
+        private void OnEnable()
         {
-            get { return target as LensAberrations; }
+            var settingsGroups = typeof(LensAberrations)
+                .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Where(x =>
+                    x.GetCustomAttributes(typeof(LensAberrations.SettingsGroup), false).Any());
+
+            foreach (var settingGroup in settingsGroups)
+                PopulateMap(settingGroup);
         }
 
         private void PopulateMap(FieldInfo group)
@@ -34,14 +41,6 @@ namespace UnityStandardAssets.CinematicEffects
             }
         }
 
-        private void OnEnable()
-        {
-            var settingsGroups = typeof(LensAberrations).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Where(x => x.GetCustomAttributes(typeof(LensAberrations.SettingsGroup), false).Any());
-
-            foreach (var settingGroup in settingsGroups)
-                PopulateMap(settingGroup);
-        }
-
         private void DrawFields()
         {
             foreach (var group in m_GroupFields)
@@ -50,7 +49,7 @@ namespace UnityStandardAssets.CinematicEffects
                 var groupProperty = serializedObject.FindProperty(group.Key.Name);
 
                 GUILayout.Space(5);
-                bool display = EditorGUIHelper.Header(groupProperty, enabledField);
+                var display = EditorGUIHelper.Header(groupProperty, enabledField);
                 if (!display)
                     continue;
 
@@ -61,9 +60,7 @@ namespace UnityStandardAssets.CinematicEffects
                     {
                         GUILayout.Space(3);
                         foreach (var field in group.Value.Where(x => x.propertyPath != group.Key.Name + ".enabled"))
-                        {
                             EditorGUILayout.PropertyField(field);
-                        }
                     }
                     GUILayout.EndVertical();
                 }

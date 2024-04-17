@@ -1,14 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
 
 public class ObjectiveMenuController : MonoBehaviour
 {
-    public GameObject objectiveMenuUI; 
+    public GameObject objectiveMenuUI;
 
-    
-    void Start()
+
+    private void Start()
     {
         // Initially show the objective menu
         objectiveMenuUI.SetActive(true);
@@ -17,30 +15,20 @@ public class ObjectiveMenuController : MonoBehaviour
         StartCoroutine(HideMenuAfterDelay(5f));
     }
 
-    void Update()
+    private void Update()
     {
-        
-        
         if (Input.GetKey(KeyCode.Tab))
-        {
             objectiveMenuUI.SetActive(true);
-        }
         else if (Time.time > 5f) // To Ensure if more than 5 seconds have passed since the game started
-        {
             objectiveMenuUI.SetActive(false);
-        }
     }
 
     private IEnumerator HideMenuAfterDelay(float delay)
     {
-        
         yield return new WaitForSeconds(delay);
 
-        
+
         // This ensures that if the player presses the Tab right before the delay ends, the menu stays visible
-        if (!Input.GetKey(KeyCode.Tab))
-        {
-            objectiveMenuUI.SetActive(false);
-        }
+        if (!Input.GetKey(KeyCode.Tab)) objectiveMenuUI.SetActive(false);
     }
 }

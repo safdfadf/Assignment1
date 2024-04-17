@@ -1,29 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+
 [ExecuteInEditMode]
 public class ButtonName : MonoBehaviour
 {
     public Text[] buttontexts;
     public string[] buttonnames;
-    int num;
+
+    private int num;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        for (int i = 0; i < buttontexts.Length; i++)
-        {
-            changename(i);
-        }
+        for (var i = 0; i < buttontexts.Length; i++) changename(i);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
     }
-    void changename(int n)
+
+    private void changename(int n)
     {
-        buttontexts[n].text = buttonnames[n].ToString();
+        buttontexts[n].text = buttonnames[n];
     }
 }

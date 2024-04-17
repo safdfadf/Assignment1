@@ -1,5 +1,5 @@
-using UnityEngine;
 using System;
+using UnityEngine;
 
 namespace UnityStandardAssets.CinematicEffects
 {
@@ -25,68 +25,11 @@ namespace UnityStandardAssets.CinematicEffects
     [RequireComponent(typeof(Camera))]
     public class DepthOfField : MonoBehaviour
     {
-        private const float kMaxBlur = 40.0f;
-
-        #region Render passes
-        private enum Passes
-        {
-            BlurAlphaWeighted,
-            BoxBlur,
-            DilateFgCocFromColor,
-            DilateFgCoc,
-            CaptureCocExplicit,
-            VisualizeCocExplicit,
-            CocPrefilter,
-            CircleBlur,
-            CircleBlurWithDilatedFg,
-            CircleBlurLowQuality,
-            CircleBlowLowQualityWithDilatedFg,
-            MergeExplicit,
-            ShapeLowQuality,
-            ShapeLowQualityDilateFg,
-            ShapeLowQualityMerge,
-            ShapeLowQualityMergeDilateFg,
-            ShapeMediumQuality,
-            ShapeMediumQualityDilateFg,
-            ShapeMediumQualityMerge,
-            ShapeMediumQualityMergeDilateFg,
-            ShapeHighQuality,
-            ShapeHighQualityDilateFg,
-            ShapeHighQualityMerge,
-            ShapeHighQualityMergeDilateFg
-        }
-
-        private enum MedianPasses
-        {
-            Median3,
-            Median3X3
-        }
-
-        private enum BokehTexturesPasses
-        {
-            Apply,
-            Collect
-        }
-        #endregion
-
-        public enum TweakMode
-        {
-            Range,
-            Explicit
-        }
-
         public enum ApertureShape
         {
             Circular,
             Hexagonal,
             Octogonal
-        }
-
-        public enum QualityPreset
-        {
-            Low,
-            Medium,
-            High
         }
 
         public enum FilterQuality
@@ -96,172 +39,52 @@ namespace UnityStandardAssets.CinematicEffects
             High
         }
 
-        #region Settings
-        [Serializable]
-        public struct GlobalSettings
+        public enum QualityPreset
         {
-            [Tooltip("Allows to view where the blur will be applied. Yellow for near blur, blue for far blur.")]
-            public bool visualizeFocus;
-
-            [Tooltip("Setup mode. Use \"Advanced\" if you need more control on blur settings and/or want to use a bokeh texture. \"Explicit\" is the same as \"Advanced\" but makes use of \"Near Plane\" and \"Far Plane\" values instead of \"F-Stop\".")]
-            public TweakMode tweakMode;
-
-            [Tooltip("Quality presets. Use \"Custom\" for more advanced settings.")]
-            public QualityPreset filteringQuality;
-
-            [Tooltip("\"Circular\" is the fastest, followed by \"Hexagonal\" and \"Octogonal\".")]
-            public ApertureShape apertureShape;
-
-            [Range(0f, 179f), Tooltip("Rotates the aperture when working with \"Hexagonal\" and \"Ortogonal\".")]
-            public float apertureOrientation;
-
-            public static GlobalSettings defaultSettings
-            {
-                get
-                {
-                    return new GlobalSettings
-                    {
-                        visualizeFocus = false,
-                        tweakMode = TweakMode.Range,
-                        filteringQuality = QualityPreset.High,
-                        apertureShape = ApertureShape.Circular,
-                        apertureOrientation = 0f
-                    };
-                }
-            }
+            Low,
+            Medium,
+            High
         }
 
-        [Serializable]
-        public struct QualitySettings
+        public enum TweakMode
         {
-            [Tooltip("Enable this to get smooth bokeh.")]
-            public bool prefilterBlur;
-
-            [Tooltip("Applies a median filter for even smoother bokeh.")]
-            public FilterQuality medianFilter;
-
-            [Tooltip("Dilates near blur over in focus area.")]
-            public bool dilateNearBlur;
-
-            public static QualitySettings[] presetQualitySettings =
-            {
-                // Low
-                new QualitySettings
-                {
-                    prefilterBlur = false,
-                    medianFilter = FilterQuality.None,
-                    dilateNearBlur = false
-                },
-
-                // Medium
-                new QualitySettings
-                {
-                    prefilterBlur = true,
-                    medianFilter = FilterQuality.Normal,
-                    dilateNearBlur = false
-                },
-
-                // High
-                new QualitySettings
-                {
-                    prefilterBlur = true,
-                    medianFilter = FilterQuality.High,
-                    dilateNearBlur = true
-                }
-            };
+            Range,
+            Explicit
         }
 
-        [Serializable]
-        public struct FocusSettings
-        {
-            [Tooltip("Auto-focus on a selected transform.")]
-            public Transform transform;
-
-            [Min(0f), Tooltip("Focus distance (in world units).")]
-            public float focusPlane;
-
-            [Min(0.1f), Tooltip("Focus range (in world units). The focus plane is located in the center of the range.")]
-            public float range;
-
-            [Min(0f), Tooltip("Near focus distance (in world units).")]
-            public float nearPlane;
-
-            [Min(0f), Tooltip("Near blur falloff (in world units).")]
-            public float nearFalloff;
-
-            [Min(0f), Tooltip("Far focus distance (in world units).")]
-            public float farPlane;
-
-            [Min(0f), Tooltip("Far blur falloff (in world units).")]
-            public float farFalloff;
-
-            [Range(0f, kMaxBlur), Tooltip("Maximum blur radius for the near plane.")]
-            public float nearBlurRadius;
-
-            [Range(0f, kMaxBlur), Tooltip("Maximum blur radius for the far plane.")]
-            public float farBlurRadius;
-
-            public static FocusSettings defaultSettings
-            {
-                get
-                {
-                    return new FocusSettings
-                    {
-                        transform = null,
-                        focusPlane = 20f,
-                        range = 35f,
-                        nearPlane = 2.5f,
-                        nearFalloff = 15f,
-                        farPlane = 37.5f,
-                        farFalloff = 50f,
-                        nearBlurRadius = 15f,
-                        farBlurRadius = 20f
-                    };
-                }
-            }
-        }
-
-        [Serializable]
-        public struct BokehTextureSettings
-        {
-            [Tooltip("Adding a texture to this field will enable the use of \"Bokeh Textures\". Use with care. This feature is only available on Shader Model 5 compatible-hardware and performance scale with the amount of bokeh.")]
-            public Texture2D texture;
-
-            [Range(0.01f, 10f), Tooltip("Maximum size of bokeh textures on screen.")]
-            public float scale;
-
-            [Range(0.01f, 100f), Tooltip("Bokeh brightness.")]
-            public float intensity;
-
-            [Range(0.01f, 5f), Tooltip("Controls the amount of bokeh textures. Lower values mean more bokeh splats.")]
-            public float threshold;
-
-            [Range(0.01f, 1f), Tooltip("Controls the spawn conditions. Lower values mean more visible bokeh.")]
-            public float spawnHeuristic;
-
-            public static BokehTextureSettings defaultSettings
-            {
-                get
-                {
-                    return new BokehTextureSettings
-                    {
-                        texture = null,
-                        scale = 1f,
-                        intensity = 50f,
-                        threshold = 2f,
-                        spawnHeuristic = 0.15f
-                    };
-                }
-            }
-        }
-        #endregion
+        private const float kMaxBlur = 40.0f;
 
         public GlobalSettings settings = GlobalSettings.defaultSettings;
         public FocusSettings focus = FocusSettings.defaultSettings;
         public BokehTextureSettings bokehTexture = BokehTextureSettings.defaultSettings;
 
-        [SerializeField]
-        private Shader m_FilmicDepthOfFieldShader;
+        [SerializeField] private Shader m_FilmicDepthOfFieldShader;
+
+        [SerializeField] private Shader m_MedianFilterShader;
+
+        [SerializeField] private Shader m_TextureBokehShader;
+
+        private ComputeBuffer m_ComputeBufferDrawArgs;
+
+        private ComputeBuffer m_ComputeBufferPoints;
+
+        private QualitySettings m_CurrentQualitySettings;
+
+        private Material m_FilmicDepthOfFieldMaterial;
+        private Vector4 m_HexagonalBokehDirection1;
+        private Vector4 m_HexagonalBokehDirection2;
+        private Vector4 m_HexagonalBokehDirection3;
+        private float m_LastApertureOrientation;
+
+        private Material m_MedianFilterMaterial;
+        private Vector4 m_OctogonalBokehDirection1;
+        private Vector4 m_OctogonalBokehDirection2;
+        private Vector4 m_OctogonalBokehDirection3;
+        private Vector4 m_OctogonalBokehDirection4;
+
+        private readonly RenderTextureUtility m_RTU = new();
+
+        private Material m_TextureBokehMaterial;
 
         public Shader filmicDepthOfFieldShader
         {
@@ -274,9 +97,6 @@ namespace UnityStandardAssets.CinematicEffects
             }
         }
 
-        [SerializeField]
-        private Shader m_MedianFilterShader;
-
         public Shader medianFilterShader
         {
             get
@@ -287,9 +107,6 @@ namespace UnityStandardAssets.CinematicEffects
                 return m_MedianFilterShader;
             }
         }
-
-        [SerializeField]
-        private Shader m_TextureBokehShader;
 
         public Shader textureBokehShader
         {
@@ -302,22 +119,17 @@ namespace UnityStandardAssets.CinematicEffects
             }
         }
 
-        private RenderTextureUtility m_RTU = new RenderTextureUtility();
-
-        private Material m_FilmicDepthOfFieldMaterial;
-
         public Material filmicDepthOfFieldMaterial
         {
             get
             {
                 if (m_FilmicDepthOfFieldMaterial == null)
-                    m_FilmicDepthOfFieldMaterial = ImageEffectHelper.CheckShaderAndCreateMaterial(filmicDepthOfFieldShader);
+                    m_FilmicDepthOfFieldMaterial =
+                        ImageEffectHelper.CheckShaderAndCreateMaterial(filmicDepthOfFieldShader);
 
                 return m_FilmicDepthOfFieldMaterial;
             }
         }
-
-        private Material m_MedianFilterMaterial;
 
         public Material medianFilterMaterial
         {
@@ -330,8 +142,6 @@ namespace UnityStandardAssets.CinematicEffects
             }
         }
 
-        private Material m_TextureBokehMaterial;
-
         public Material textureBokehMaterial
         {
             get
@@ -342,8 +152,6 @@ namespace UnityStandardAssets.CinematicEffects
                 return m_TextureBokehMaterial;
             }
         }
-
-        private ComputeBuffer m_ComputeBufferDrawArgs;
 
         public ComputeBuffer computeBufferDrawArgs
         {
@@ -356,14 +164,12 @@ namespace UnityStandardAssets.CinematicEffects
 #else
                     m_ComputeBufferDrawArgs = new ComputeBuffer(1, 16, ComputeBufferType.DrawIndirect);
 #endif
-                    m_ComputeBufferDrawArgs.SetData(new[] {0, 1, 0, 0});
+                    m_ComputeBufferDrawArgs.SetData(new[] { 0, 1, 0, 0 });
                 }
 
                 return m_ComputeBufferDrawArgs;
             }
         }
-
-        private ComputeBuffer m_ComputeBufferPoints;
 
         public ComputeBuffer computeBufferPoints
         {
@@ -376,19 +182,13 @@ namespace UnityStandardAssets.CinematicEffects
             }
         }
 
-        private QualitySettings m_CurrentQualitySettings;
-        private float m_LastApertureOrientation;
-        private Vector4 m_OctogonalBokehDirection1;
-        private Vector4 m_OctogonalBokehDirection2;
-        private Vector4 m_OctogonalBokehDirection3;
-        private Vector4 m_OctogonalBokehDirection4;
-        private Vector4 m_HexagonalBokehDirection1;
-        private Vector4 m_HexagonalBokehDirection2;
-        private Vector4 m_HexagonalBokehDirection3;
+        private bool shouldPerformBokeh =>
+            ImageEffectHelper.supportsDX11 && bokehTexture.texture != null && textureBokehMaterial;
 
         private void OnEnable()
         {
-            if (!ImageEffectHelper.IsSupported(filmicDepthOfFieldShader, true, true, this) || !ImageEffectHelper.IsSupported(medianFilterShader, true, true, this))
+            if (!ImageEffectHelper.IsSupported(filmicDepthOfFieldShader, true, true, this) ||
+                !ImageEffectHelper.IsSupported(medianFilterShader, true, true, this))
             {
                 enabled = false;
                 return;
@@ -456,14 +256,15 @@ namespace UnityStandardAssets.CinematicEffects
         {
             m_CurrentQualitySettings = QualitySettings.presetQualitySettings[(int)settings.filteringQuality];
 
-            float radiusAdjustement = source.height / 720f;
+            var radiusAdjustement = source.height / 720f;
 
-            float textureBokehScale = radiusAdjustement;
-            float textureBokehMaxRadius = Mathf.Max(focus.nearBlurRadius, focus.farBlurRadius) * textureBokehScale * 0.75f;
+            var textureBokehScale = radiusAdjustement;
+            var textureBokehMaxRadius =
+                Mathf.Max(focus.nearBlurRadius, focus.farBlurRadius) * textureBokehScale * 0.75f;
 
-            float nearBlurRadius = focus.nearBlurRadius * radiusAdjustement;
-            float farBlurRadius = focus.farBlurRadius * radiusAdjustement;
-            float maxBlurRadius = Mathf.Max(nearBlurRadius, farBlurRadius);
+            var nearBlurRadius = focus.nearBlurRadius * radiusAdjustement;
+            var farBlurRadius = focus.farBlurRadius * radiusAdjustement;
+            var maxBlurRadius = Mathf.Max(nearBlurRadius, farBlurRadius);
             switch (settings.apertureShape)
             {
                 case ApertureShape.Hexagonal:
@@ -481,8 +282,8 @@ namespace UnityStandardAssets.CinematicEffects
             }
 
             // Quarter resolution
-            int rtW = source.width / 2;
-            int rtH = source.height / 2;
+            var rtW = source.width / 2;
+            var rtH = source.height / 2;
             var blurrinessCoe = new Vector4(nearBlurRadius * 0.5f, farBlurRadius * 0.5f, 0f, 0f);
             var colorAndCoc = m_RTU.GetTemporaryRenderTexture(rtW, rtH);
             var colorAndCoc2 = m_RTU.GetTemporaryRenderTexture(rtW, rtH);
@@ -511,7 +312,9 @@ namespace UnityStandardAssets.CinematicEffects
                 // Collect texture bokeh candidates and replace with a darker pixel
                 textureBokehMaterial.SetTexture("_BlurredColor", blurred);
                 textureBokehMaterial.SetFloat("_SpawnHeuristic", bokehTexture.spawnHeuristic);
-                textureBokehMaterial.SetVector("_BokehParams", new Vector4(bokehTexture.scale * textureBokehScale, bokehTexture.intensity, bokehTexture.threshold, textureBokehMaxRadius));
+                textureBokehMaterial.SetVector("_BokehParams",
+                    new Vector4(bokehTexture.scale * textureBokehScale, bokehTexture.intensity, bokehTexture.threshold,
+                        textureBokehMaxRadius));
                 Graphics.SetRandomWriteTarget(1, computeBufferPoints);
                 Graphics.Blit(src, dst, textureBokehMaterial, (int)BokehTexturesPasses.Collect);
                 Graphics.ClearRandomWriteTargets();
@@ -580,9 +383,10 @@ namespace UnityStandardAssets.CinematicEffects
 
             // Merge to full resolution (with boost) + upsampling (linear or bicubic)
             filmicDepthOfFieldMaterial.SetVector("_BlurCoe", blurrinessCoe);
-            filmicDepthOfFieldMaterial.SetVector("_Convolved_TexelSize", new Vector4(src.width, src.height, 1f / src.width, 1f / src.height));
+            filmicDepthOfFieldMaterial.SetVector("_Convolved_TexelSize",
+                new Vector4(src.width, src.height, 1f / src.width, 1f / src.height));
             filmicDepthOfFieldMaterial.SetTexture("_SecondTex", src);
-            int mergePass = (int)Passes.MergeExplicit;
+            var mergePass = (int)Passes.MergeExplicit;
 
             // Apply texture bokeh
             if (shouldPerformBokeh)
@@ -594,9 +398,10 @@ namespace UnityStandardAssets.CinematicEffects
                 ComputeBuffer.CopyCount(computeBufferPoints, computeBufferDrawArgs, 0);
                 textureBokehMaterial.SetBuffer("pointBuffer", computeBufferPoints);
                 textureBokehMaterial.SetTexture("_MainTex", bokehTexture.texture);
-                textureBokehMaterial.SetVector("_Screen", new Vector3(1f / (1f * source.width), 1f / (1f * source.height), textureBokehMaxRadius));
+                textureBokehMaterial.SetVector("_Screen",
+                    new Vector3(1f / (1f * source.width), 1f / (1f * source.height), textureBokehMaxRadius));
                 textureBokehMaterial.SetPass((int)BokehTexturesPasses.Apply);
-                Graphics.DrawProceduralIndirectNow(MeshTopology.Points, computeBufferDrawArgs, 0);
+                Graphics.DrawProceduralIndirectNow(MeshTopology.Points, computeBufferDrawArgs);
                 Graphics.Blit(tmp, destination); // Hackaround for DX11 flipfun (OPTIMIZEME)
             }
             else
@@ -608,7 +413,8 @@ namespace UnityStandardAssets.CinematicEffects
         //-------------------------------------------------------------------//
         // Blurs                                                             //
         //-------------------------------------------------------------------//
-        private void DoHexagonalBlur(RenderTexture blurredFgCoc, ref RenderTexture src, ref RenderTexture dst, float maxRadius)
+        private void DoHexagonalBlur(RenderTexture blurredFgCoc, ref RenderTexture src, ref RenderTexture dst,
+            float maxRadius)
         {
             ComputeBlurDirections(false);
 
@@ -631,7 +437,8 @@ namespace UnityStandardAssets.CinematicEffects
             SwapRenderTexture(ref src, ref dst);
         }
 
-        private void DoOctogonalBlur(RenderTexture blurredFgCoc, ref RenderTexture src, ref RenderTexture dst, float maxRadius)
+        private void DoOctogonalBlur(RenderTexture blurredFgCoc, ref RenderTexture src, ref RenderTexture dst,
+            float maxRadius)
         {
             ComputeBlurDirections(false);
 
@@ -656,18 +463,21 @@ namespace UnityStandardAssets.CinematicEffects
             m_RTU.ReleaseTemporaryRenderTexture(tmp);
         }
 
-        private void DoCircularBlur(RenderTexture blurredFgCoc, ref RenderTexture src, ref RenderTexture dst, float maxRadius)
+        private void DoCircularBlur(RenderTexture blurredFgCoc, ref RenderTexture src, ref RenderTexture dst,
+            float maxRadius)
         {
             int bokehPass;
 
             if (blurredFgCoc != null)
             {
                 filmicDepthOfFieldMaterial.SetTexture("_SecondTex", blurredFgCoc);
-                bokehPass = (maxRadius > 10f) ? (int)Passes.CircleBlurWithDilatedFg : (int)Passes.CircleBlowLowQualityWithDilatedFg;
+                bokehPass = maxRadius > 10f
+                    ? (int)Passes.CircleBlurWithDilatedFg
+                    : (int)Passes.CircleBlowLowQualityWithDilatedFg;
             }
             else
             {
-                bokehPass = (maxRadius > 10f) ? (int)Passes.CircleBlur : (int)Passes.CircleBlurLowQuality;
+                bokehPass = maxRadius > 10f ? (int)Passes.CircleBlur : (int)Passes.CircleBlurLowQuality;
             }
 
             Graphics.Blit(src, dst, filmicDepthOfFieldMaterial, bokehPass);
@@ -682,10 +492,10 @@ namespace UnityStandardAssets.CinematicEffects
             var sceneCamera = GetComponent<Camera>();
 
             float focusDistance;
-            float nearFalloff = focus.nearFalloff * 2f;
-            float farFalloff = focus.farFalloff * 2f;
-            float nearPlane = focus.nearPlane;
-            float farPlane = focus.farPlane;
+            var nearFalloff = focus.nearFalloff * 2f;
+            var farFalloff = focus.farFalloff * 2f;
+            var nearPlane = focus.nearPlane;
+            var farPlane = focus.farPlane;
 
             if (settings.tweakMode == TweakMode.Range)
             {
@@ -694,48 +504,48 @@ namespace UnityStandardAssets.CinematicEffects
                 else
                     focusDistance = focus.focusPlane;
 
-                float s = focus.range * 0.5f;
+                var s = focus.range * 0.5f;
                 nearPlane = focusDistance - s;
                 farPlane = focusDistance + s;
             }
 
-            nearPlane -= (nearFalloff * 0.5f);
-            farPlane += (farFalloff * 0.5f);
+            nearPlane -= nearFalloff * 0.5f;
+            farPlane += farFalloff * 0.5f;
             focusDistance = (nearPlane + farPlane) * 0.5f;
 
-            float focusDistance01 = focusDistance / sceneCamera.farClipPlane;
-            float nearDistance01 = nearPlane / sceneCamera.farClipPlane;
-            float farDistance01 = farPlane / sceneCamera.farClipPlane;
+            var focusDistance01 = focusDistance / sceneCamera.farClipPlane;
+            var nearDistance01 = nearPlane / sceneCamera.farClipPlane;
+            var farDistance01 = farPlane / sceneCamera.farClipPlane;
 
             var dof = farPlane - nearPlane;
             var dof01 = farDistance01 - nearDistance01;
             var nearFalloff01 = nearFalloff / dof;
             var farFalloff01 = farFalloff / dof;
-            float nearFocusRange01 = (1f - nearFalloff01) * (dof01 * 0.5f);
-            float farFocusRange01 = (1f - farFalloff01) * (dof01 * 0.5f);
+            var nearFocusRange01 = (1f - nearFalloff01) * (dof01 * 0.5f);
+            var farFocusRange01 = (1f - farFalloff01) * (dof01 * 0.5f);
 
             if (focusDistance01 <= nearDistance01)
                 focusDistance01 = nearDistance01 + 1e-6f;
             if (focusDistance01 >= farDistance01)
                 focusDistance01 = farDistance01 - 1e-6f;
 
-            if ((focusDistance01 - nearFocusRange01) <= nearDistance01)
+            if (focusDistance01 - nearFocusRange01 <= nearDistance01)
                 nearFocusRange01 = focusDistance01 - nearDistance01 - 1e-6f;
-            if ((focusDistance01 + farFocusRange01) >= farDistance01)
+            if (focusDistance01 + farFocusRange01 >= farDistance01)
                 farFocusRange01 = farDistance01 - focusDistance01 - 1e-6f;
 
-            float a1 = 1f / (nearDistance01 - focusDistance01 + nearFocusRange01);
-            float a2 = 1f / (farDistance01 - focusDistance01 - farFocusRange01);
-            float b1 = 1f - a1 * nearDistance01;
-            float b2 = 1f - a2 * farDistance01;
+            var a1 = 1f / (nearDistance01 - focusDistance01 + nearFocusRange01);
+            var a2 = 1f / (farDistance01 - focusDistance01 - farFocusRange01);
+            var b1 = 1f - a1 * nearDistance01;
+            var b2 = 1f - a2 * farDistance01;
             const float c1 = -1f;
             const float c2 = 1f;
             blurParams = new Vector4(c1 * a1, c1 * b1, c2 * a2, c2 * b2);
             blurCoe = new Vector4(0f, 0f, (b2 - b1) / (a1 - a2), 0f);
 
             // Save values so we can switch from one tweak mode to the other on the fly
-            focus.nearPlane = nearPlane + (nearFalloff * 0.5f);
-            focus.farPlane = farPlane - (farFalloff * 0.5f);
+            focus.nearPlane = nearPlane + nearFalloff * 0.5f;
+            focus.farPlane = farPlane - farFalloff * 0.5f;
             focus.focusPlane = (focus.nearPlane + focus.farPlane) * 0.5f;
             focus.range = focus.farPlane - focus.nearPlane;
         }
@@ -759,9 +569,9 @@ namespace UnityStandardAssets.CinematicEffects
 
             m_LastApertureOrientation = settings.apertureOrientation;
 
-            float rotationRadian = settings.apertureOrientation * Mathf.Deg2Rad;
-            float cosinus = Mathf.Cos(rotationRadian);
-            float sinus = Mathf.Sin(rotationRadian);
+            var rotationRadian = settings.apertureOrientation * Mathf.Deg2Rad;
+            var cosinus = Mathf.Cos(rotationRadian);
+            var sinus = Mathf.Sin(rotationRadian);
 
             m_OctogonalBokehDirection1 = new Vector4(0.5f, 0f, 0f, 0f);
             m_OctogonalBokehDirection2 = new Vector4(0f, 0.5f, 1f, 0f);
@@ -784,11 +594,6 @@ namespace UnityStandardAssets.CinematicEffects
             }
         }
 
-        private bool shouldPerformBokeh
-        {
-            get { return ImageEffectHelper.supportsDX11 && bokehTexture.texture != null && textureBokehMaterial; }
-        }
-
         private static void Rotate2D(ref Vector4 direction, float cosinus, float sinus)
         {
             var source = direction;
@@ -798,12 +603,13 @@ namespace UnityStandardAssets.CinematicEffects
 
         private static void SwapRenderTexture(ref RenderTexture src, ref RenderTexture dst)
         {
-            RenderTexture tmp = dst;
+            var tmp = dst;
             dst = src;
             src = tmp;
         }
 
-        private static void GetDirectionalBlurPassesFromRadius(RenderTexture blurredFgCoc, float maxRadius, out int blurPass, out int blurAndMergePass)
+        private static void GetDirectionalBlurPassesFromRadius(RenderTexture blurredFgCoc, float maxRadius,
+            out int blurPass, out int blurAndMergePass)
         {
             if (blurredFgCoc == null)
             {
@@ -842,5 +648,199 @@ namespace UnityStandardAssets.CinematicEffects
                 }
             }
         }
+
+        #region Render passes
+
+        private enum Passes
+        {
+            BlurAlphaWeighted,
+            BoxBlur,
+            DilateFgCocFromColor,
+            DilateFgCoc,
+            CaptureCocExplicit,
+            VisualizeCocExplicit,
+            CocPrefilter,
+            CircleBlur,
+            CircleBlurWithDilatedFg,
+            CircleBlurLowQuality,
+            CircleBlowLowQualityWithDilatedFg,
+            MergeExplicit,
+            ShapeLowQuality,
+            ShapeLowQualityDilateFg,
+            ShapeLowQualityMerge,
+            ShapeLowQualityMergeDilateFg,
+            ShapeMediumQuality,
+            ShapeMediumQualityDilateFg,
+            ShapeMediumQualityMerge,
+            ShapeMediumQualityMergeDilateFg,
+            ShapeHighQuality,
+            ShapeHighQualityDilateFg,
+            ShapeHighQualityMerge,
+            ShapeHighQualityMergeDilateFg
+        }
+
+        private enum MedianPasses
+        {
+            Median3,
+            Median3X3
+        }
+
+        private enum BokehTexturesPasses
+        {
+            Apply,
+            Collect
+        }
+
+        #endregion
+
+        #region Settings
+
+        [Serializable]
+        public struct GlobalSettings
+        {
+            [Tooltip("Allows to view where the blur will be applied. Yellow for near blur, blue for far blur.")]
+            public bool visualizeFocus;
+
+            [Tooltip(
+                "Setup mode. Use \"Advanced\" if you need more control on blur settings and/or want to use a bokeh texture. \"Explicit\" is the same as \"Advanced\" but makes use of \"Near Plane\" and \"Far Plane\" values instead of \"F-Stop\".")]
+            public TweakMode tweakMode;
+
+            [Tooltip("Quality presets. Use \"Custom\" for more advanced settings.")]
+            public QualityPreset filteringQuality;
+
+            [Tooltip("\"Circular\" is the fastest, followed by \"Hexagonal\" and \"Octogonal\".")]
+            public ApertureShape apertureShape;
+
+            [Range(0f, 179f)] [Tooltip("Rotates the aperture when working with \"Hexagonal\" and \"Ortogonal\".")]
+            public float apertureOrientation;
+
+            public static GlobalSettings defaultSettings =>
+                new()
+                {
+                    visualizeFocus = false,
+                    tweakMode = TweakMode.Range,
+                    filteringQuality = QualityPreset.High,
+                    apertureShape = ApertureShape.Circular,
+                    apertureOrientation = 0f
+                };
+        }
+
+        [Serializable]
+        public struct QualitySettings
+        {
+            public static QualitySettings[] presetQualitySettings =
+            {
+                // Low
+                new()
+                {
+                    prefilterBlur = false,
+                    medianFilter = FilterQuality.None,
+                    dilateNearBlur = false
+                },
+
+                // Medium
+                new()
+                {
+                    prefilterBlur = true,
+                    medianFilter = FilterQuality.Normal,
+                    dilateNearBlur = false
+                },
+
+                // High
+                new()
+                {
+                    prefilterBlur = true,
+                    medianFilter = FilterQuality.High,
+                    dilateNearBlur = true
+                }
+            };
+
+            [Tooltip("Enable this to get smooth bokeh.")]
+            public bool prefilterBlur;
+
+            [Tooltip("Applies a median filter for even smoother bokeh.")]
+            public FilterQuality medianFilter;
+
+            [Tooltip("Dilates near blur over in focus area.")]
+            public bool dilateNearBlur;
+        }
+
+        [Serializable]
+        public struct FocusSettings
+        {
+            [Tooltip("Auto-focus on a selected transform.")]
+            public Transform transform;
+
+            [Min(0f)] [Tooltip("Focus distance (in world units).")]
+            public float focusPlane;
+
+            [Min(0.1f)]
+            [Tooltip("Focus range (in world units). The focus plane is located in the center of the range.")]
+            public float range;
+
+            [Min(0f)] [Tooltip("Near focus distance (in world units).")]
+            public float nearPlane;
+
+            [Min(0f)] [Tooltip("Near blur falloff (in world units).")]
+            public float nearFalloff;
+
+            [Min(0f)] [Tooltip("Far focus distance (in world units).")]
+            public float farPlane;
+
+            [Min(0f)] [Tooltip("Far blur falloff (in world units).")]
+            public float farFalloff;
+
+            [Range(0f, kMaxBlur)] [Tooltip("Maximum blur radius for the near plane.")]
+            public float nearBlurRadius;
+
+            [Range(0f, kMaxBlur)] [Tooltip("Maximum blur radius for the far plane.")]
+            public float farBlurRadius;
+
+            public static FocusSettings defaultSettings =>
+                new()
+                {
+                    transform = null,
+                    focusPlane = 20f,
+                    range = 35f,
+                    nearPlane = 2.5f,
+                    nearFalloff = 15f,
+                    farPlane = 37.5f,
+                    farFalloff = 50f,
+                    nearBlurRadius = 15f,
+                    farBlurRadius = 20f
+                };
+        }
+
+        [Serializable]
+        public struct BokehTextureSettings
+        {
+            [Tooltip(
+                "Adding a texture to this field will enable the use of \"Bokeh Textures\". Use with care. This feature is only available on Shader Model 5 compatible-hardware and performance scale with the amount of bokeh.")]
+            public Texture2D texture;
+
+            [Range(0.01f, 10f)] [Tooltip("Maximum size of bokeh textures on screen.")]
+            public float scale;
+
+            [Range(0.01f, 100f)] [Tooltip("Bokeh brightness.")]
+            public float intensity;
+
+            [Range(0.01f, 5f)] [Tooltip("Controls the amount of bokeh textures. Lower values mean more bokeh splats.")]
+            public float threshold;
+
+            [Range(0.01f, 1f)] [Tooltip("Controls the spawn conditions. Lower values mean more visible bokeh.")]
+            public float spawnHeuristic;
+
+            public static BokehTextureSettings defaultSettings =>
+                new()
+                {
+                    texture = null,
+                    scale = 1f,
+                    intensity = 50f,
+                    threshold = 2f,
+                    spawnHeuristic = 0.15f
+                };
+        }
+
+        #endregion
     }
 }

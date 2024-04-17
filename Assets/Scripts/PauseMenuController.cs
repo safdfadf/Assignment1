@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,18 +5,14 @@ public class PauseMenuController : MonoBehaviour
 {
     public GameObject pauseMenuUI;
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (pauseMenuUI.activeInHierarchy)
-            {
                 ResumeGame();
-            }
             else
-            {
                 PauseGame();
-            }
         }
     }
 
@@ -44,5 +38,4 @@ public class PauseMenuController : MonoBehaviour
     {
         Application.Quit();
     }
-
 }

@@ -1,5 +1,5 @@
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 namespace UnityStandardAssets.CinematicEffects
 {
@@ -7,30 +7,30 @@ namespace UnityStandardAssets.CinematicEffects
     [CustomEditor(typeof(AmbientOcclusion))]
     public class AmbientOcclusionEditor : Editor
     {
-        SerializedProperty _intensity;
-        SerializedProperty _radius;
-        SerializedProperty _sampleCount;
-        SerializedProperty _sampleCountValue;
-        SerializedProperty _downsampling;
-        SerializedProperty _occlusionSource;
-        SerializedProperty _ambientOnly;
-        SerializedProperty _debug;
+        private static readonly GUIContent _textValue = new("Value");
 
-        static GUIContent _textValue = new GUIContent("Value");
-
-        static string _textNoGBuffer =
+        private static readonly string _textNoGBuffer =
             "G-buffer is currently unavailable. " +
             "Change Renderring Path in camera settings to Deferred.";
 
-        static string _textNoAmbientOnly =
+        private static readonly string _textNoAmbientOnly =
             "The ambient-only mode is currently disabled; " +
             "it requires G-buffer source and HDR rendering.";
 
-        static string _textGBufferNote =
+        private static readonly string _textGBufferNote =
             "Forward opaque objects don't go in the G-buffer. " +
             "This may lead to artifacts.";
 
-        void OnEnable()
+        private SerializedProperty _ambientOnly;
+        private SerializedProperty _debug;
+        private SerializedProperty _downsampling;
+        private SerializedProperty _intensity;
+        private SerializedProperty _occlusionSource;
+        private SerializedProperty _radius;
+        private SerializedProperty _sampleCount;
+        private SerializedProperty _sampleCountValue;
+
+        private void OnEnable()
         {
             _intensity = serializedObject.FindProperty("settings.intensity");
             _radius = serializedObject.FindProperty("settings.radius");
@@ -77,9 +77,7 @@ namespace UnityStandardAssets.CinematicEffects
             if (!_ambientOnly.hasMultipleDifferentValues &&
                 _ambientOnly.boolValue &&
                 !targetInstance.isAmbientOnlySupported)
-            {
                 EditorGUILayout.HelpBox(_textNoAmbientOnly, MessageType.Warning);
-            }
 
             EditorGUILayout.PropertyField(_debug);
 

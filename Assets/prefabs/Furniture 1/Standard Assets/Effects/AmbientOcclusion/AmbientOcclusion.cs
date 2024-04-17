@@ -14,20 +14,13 @@ namespace UnityStandardAssets.CinematicEffects
         #region Public Properties
 
         /// Effect settings.
-        [SerializeField]
-        public Settings settings = Settings.defaultSettings;
+        [SerializeField] public Settings settings = Settings.defaultSettings;
 
         /// Checks if the ambient-only mode is supported under the current settings.
-        public bool isAmbientOnlySupported
-        {
-            get { return targetCamera.allowHDR && occlusionSource == OcclusionSource.GBuffer; }
-        }
+        public bool isAmbientOnlySupported => targetCamera.allowHDR && occlusionSource == OcclusionSource.GBuffer;
 
         /// Checks if the G-buffer is available
-        public bool isGBufferAvailable
-        {
-            get { return targetCamera.actualRenderingPath == RenderingPath.DeferredShading; }
-        }
+        public bool isGBufferAvailable => targetCamera.actualRenderingPath == RenderingPath.DeferredShading;
 
         #endregion
 
@@ -35,72 +28,56 @@ namespace UnityStandardAssets.CinematicEffects
 
         // Properties referring to the current settings
 
-        float intensity
-        {
-            get { return settings.intensity; }
-        }
+        private float intensity => settings.intensity;
 
-        float radius
-        {
-            get { return Mathf.Max(settings.radius, 1e-4f); }
-        }
+        private float radius => Mathf.Max(settings.radius, 1e-4f);
 
-        SampleCount sampleCount
-        {
-            get { return settings.sampleCount; }
-        }
+        private SampleCount sampleCount => settings.sampleCount;
 
-        int sampleCountValue
+        private int sampleCountValue
         {
             get
             {
                 switch (settings.sampleCount)
                 {
                     case SampleCount.Lowest: return 3;
-                    case SampleCount.Low:    return 6;
+                    case SampleCount.Low: return 6;
                     case SampleCount.Medium: return 12;
-                    case SampleCount.High:   return 20;
+                    case SampleCount.High: return 20;
                 }
+
                 return Mathf.Clamp(settings.sampleCountValue, 1, 256);
             }
         }
 
-        OcclusionSource occlusionSource
+        private OcclusionSource occlusionSource
         {
             get
             {
                 if (settings.occlusionSource == OcclusionSource.GBuffer && !isGBufferAvailable)
                     // An unavailable source was chosen: fallback to DepthNormalsTexture.
                     return OcclusionSource.DepthNormalsTexture;
-                else
-                    return settings.occlusionSource;
+                return settings.occlusionSource;
             }
         }
 
-        bool downsampling
-        {
-            get { return settings.downsampling; }
-        }
+        private bool downsampling => settings.downsampling;
 
-        bool ambientOnly
-        {
-            get { return settings.ambientOnly && !settings.debug && isAmbientOnlySupported; }
-        }
+        private bool ambientOnly => settings.ambientOnly && !settings.debug && isAmbientOnlySupported;
 
         // Texture format used for storing AO
-        RenderTextureFormat aoTextureFormat
+        private RenderTextureFormat aoTextureFormat
         {
             get
             {
                 if (SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.R8))
                     return RenderTextureFormat.R8;
-                else
-                    return RenderTextureFormat.Default;
+                return RenderTextureFormat.Default;
             }
         }
 
         // AO shader
-        Shader aoShader
+        private Shader aoShader
         {
             get
             {
@@ -110,10 +87,10 @@ namespace UnityStandardAssets.CinematicEffects
             }
         }
 
-        [SerializeField] Shader _aoShader;
+        [SerializeField] private Shader _aoShader;
 
         // Temporary aterial for the AO shader
-        Material aoMaterial
+        private Material aoMaterial
         {
             get
             {
@@ -123,10 +100,10 @@ namespace UnityStandardAssets.CinematicEffects
             }
         }
 
-        Material _aoMaterial;
+        private Material _aoMaterial;
 
         // Command buffer for the AO pass
-        CommandBuffer aoCommands
+        private CommandBuffer aoCommands
         {
             get
             {
@@ -135,36 +112,31 @@ namespace UnityStandardAssets.CinematicEffects
                     _aoCommands = new CommandBuffer();
                     _aoCommands.name = "AmbientOcclusion";
                 }
+
                 return _aoCommands;
             }
         }
 
-        CommandBuffer _aoCommands;
+        private CommandBuffer _aoCommands;
 
         // Target camera
-        Camera targetCamera
-        {
-            get { return GetComponent<Camera>(); }
-        }
+        private Camera targetCamera => GetComponent<Camera>();
 
         // Property observer
-        PropertyObserver propertyObserver { get; set; }
+        private PropertyObserver propertyObserver { get; }
 
         // Reference to the quad mesh in the built-in assets
         // (used in MRT blitting)
-        Mesh quadMesh
-        {
-            get { return _quadMesh; }
-        }
+        private Mesh quadMesh => _quadMesh;
 
-        [SerializeField] Mesh _quadMesh;
+        [SerializeField] private Mesh _quadMesh;
 
         #endregion
 
         #region Effect Passes
 
         // Build commands for the AO pass (used in the ambient-only mode).
-        void BuildAOCommands()
+        private void BuildAOCommands()
         {
             var cb = aoCommands;
 
@@ -181,7 +153,7 @@ namespace UnityStandardAssets.CinematicEffects
             cb.GetTemporaryRT(rtMask, tw / ts, th / ts, 0, filter, format, rwMode);
 
             // AO estimation
-            cb.Blit((Texture)null, rtMask, m, 2);
+            cb.Blit(null, rtMask, m, 2);
 
             // Blur buffer
             var rtBlur = Shader.PropertyToID("_OcclusionBlurTexture");
@@ -209,9 +181,10 @@ namespace UnityStandardAssets.CinematicEffects
             cb.ReleaseTemporaryRT(rtBlur);
 
             // Combine AO to the G-buffer.
-            var mrt = new RenderTargetIdentifier[] {
-                BuiltinRenderTextureType.GBuffer0,      // Albedo, Occ
-                BuiltinRenderTextureType.CameraTarget   // Ambient
+            var mrt = new RenderTargetIdentifier[]
+            {
+                BuiltinRenderTextureType.GBuffer0, // Albedo, Occ
+                BuiltinRenderTextureType.CameraTarget // Ambient
             };
             cb.SetRenderTarget(mrt, BuiltinRenderTextureType.CameraTarget);
             cb.SetGlobalTexture("_OcclusionTexture", rtMask);
@@ -221,7 +194,7 @@ namespace UnityStandardAssets.CinematicEffects
         }
 
         // Execute the AO pass immediately (used in the forward mode).
-        void ExecuteAOPass(RenderTexture source, RenderTexture destination)
+        private void ExecuteAOPass(RenderTexture source, RenderTexture destination)
         {
             var tw = source.width;
             var th = source.height;
@@ -235,7 +208,7 @@ namespace UnityStandardAssets.CinematicEffects
             var rtMask = RenderTexture.GetTemporary(tw / ts, th / ts, 0, format, rwMode);
 
             // AO estimation
-            Graphics.Blit((Texture)null, rtMask, m, (int)occlusionSource);
+            Graphics.Blit(null, rtMask, m, (int)occlusionSource);
 
             // Primary blur filter (large kernel)
             var rtBlur = RenderTexture.GetTemporary(tw, th, 0, format, rwMode);
@@ -271,7 +244,7 @@ namespace UnityStandardAssets.CinematicEffects
         }
 
         // Update the common material properties.
-        void UpdateMaterialProperties()
+        private void UpdateMaterialProperties()
         {
             var m = aoMaterial;
             m.SetFloat("_Intensity", intensity);
@@ -284,7 +257,7 @@ namespace UnityStandardAssets.CinematicEffects
 
         #region MonoBehaviour Functions
 
-        void OnEnable()
+        private void OnEnable()
         {
             // Check if the shader is supported in the current platform.
             if (!ImageEffectHelper.IsSupported(aoShader, true, false, this))
@@ -305,7 +278,7 @@ namespace UnityStandardAssets.CinematicEffects
                 targetCamera.depthTextureMode |= DepthTextureMode.DepthNormals;
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             // Destroy all the temporary resources.
             if (_aoMaterial != null) DestroyImmediate(_aoMaterial);
@@ -316,7 +289,7 @@ namespace UnityStandardAssets.CinematicEffects
             _aoCommands = null;
         }
 
-        void Update()
+        private void Update()
         {
             if (propertyObserver.CheckNeedsReset(settings, targetCamera))
             {
@@ -340,7 +313,7 @@ namespace UnityStandardAssets.CinematicEffects
         }
 
         [ImageEffectOpaque]
-        void OnRenderImage(RenderTexture source, RenderTexture destination)
+        private void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
             if (ambientOnly)
             {

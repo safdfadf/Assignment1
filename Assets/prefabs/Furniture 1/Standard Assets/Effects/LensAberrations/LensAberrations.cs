@@ -1,5 +1,5 @@
-using UnityEngine;
 using System;
+using UnityEngine;
 
 namespace UnityStandardAssets.CinematicEffects
 {
@@ -8,155 +8,19 @@ namespace UnityStandardAssets.CinematicEffects
     [AddComponentMenu("Image Effects/Cinematic/Lens Aberrations")]
     public class LensAberrations : MonoBehaviour
     {
-        #region Attributes
-        [AttributeUsage(AttributeTargets.Field)]
-        public class SettingsGroup : Attribute
-        {}
+        [SettingsGroup] public DistortionSettings distortion = DistortionSettings.defaultSettings;
 
-        [AttributeUsage(AttributeTargets.Field)]
-        public class AdvancedSetting : Attribute
-        {}
-        #endregion
-
-        #region Settings
-        [Serializable]
-        public struct DistortionSettings
-        {
-            public bool enabled;
-
-            [Range(-100f, 100f), Tooltip("Distortion amount.")]
-            public float amount;
-
-            [Range(-1f, 1f), Tooltip("Distortion center point (X axis).")]
-            public float centerX;
-
-            [Range(-1f, 1f), Tooltip("Distortion center point (Y axis).")]
-            public float centerY;
-
-            [Range(0f, 1f), Tooltip("Amount multiplier on X axis. Set it to 0 to disable distortion on this axis.")]
-            public float amountX;
-
-            [Range(0f, 1f), Tooltip("Amount multiplier on Y axis. Set it to 0 to disable distortion on this axis.")]
-            public float amountY;
-
-            [Range(0.01f, 5f), Tooltip("Global screen scaling.")]
-            public float scale;
-
-            public static DistortionSettings defaultSettings
-            {
-                get
-                {
-                    return new DistortionSettings
-                    {
-                        enabled = false,
-                        amount = 0f,
-                        centerX = 0f,
-                        centerY = 0f,
-                        amountX = 1f,
-                        amountY = 1f,
-                        scale = 1f
-                    };
-                }
-            }
-        }
-
-        [Serializable]
-        public struct VignetteSettings
-        {
-            public bool enabled;
-
-            [ColorUsage(false)]
-            [Tooltip("Vignette color. Use the alpha channel for transparency.")]
-            public Color color;
-
-            [Tooltip("Sets the vignette center point (screen center is [0.5,0.5]).")]
-            public Vector2 center;
-
-            [Range(0f, 3f), Tooltip("Amount of vignetting on screen.")]
-            public float intensity;
-
-            [Range(0.01f, 3f), Tooltip("Smoothness of the vignette borders.")]
-            public float smoothness;
-
-            [AdvancedSetting, Range(0f, 1f), Tooltip("Lower values will make a square-ish vignette.")]
-            public float roundness;
-
-            [Range(0f, 1f), Tooltip("Blurs the corners of the screen. Leave this at 0 to disable it.")]
-            public float blur;
-
-            [Range(0f, 1f), Tooltip("Desaturate the corners of the screen. Leave this to 0 to disable it.")]
-            public float desaturate;
-
-            public static VignetteSettings defaultSettings
-            {
-                get
-                {
-                    return new VignetteSettings
-                    {
-                        enabled = false,
-                        color = new Color(0f, 0f, 0f, 1f),
-                        center = new Vector2(0.5f, 0.5f),
-                        intensity = 1.4f,
-                        smoothness = 0.8f,
-                        roundness = 1f,
-                        blur = 0f,
-                        desaturate = 0f
-                    };
-                }
-            }
-        }
-
-        [Serializable]
-        public struct ChromaticAberrationSettings
-        {
-            public bool enabled;
-
-            [ColorUsage(false)]
-            [Tooltip("Channels to apply chromatic aberration to.")]
-            public Color color;
-
-            [Range(-50f, 50f)]
-            [Tooltip("Amount of tangential distortion.")]
-            public float amount;
-
-            public static ChromaticAberrationSettings defaultSettings
-            {
-                get
-                {
-                    return new ChromaticAberrationSettings
-                    {
-                        enabled = false,
-                        color = Color.green,
-                        amount = 0f
-                    };
-                }
-            }
-        }
-        #endregion
-
-        [SettingsGroup]
-        public DistortionSettings distortion = DistortionSettings.defaultSettings;
-
-        [SettingsGroup]
-        public VignetteSettings vignette = VignetteSettings.defaultSettings;
+        [SettingsGroup] public VignetteSettings vignette = VignetteSettings.defaultSettings;
 
         [SettingsGroup]
         public ChromaticAberrationSettings chromaticAberration = ChromaticAberrationSettings.defaultSettings;
 
-        private enum Pass
-        {
-            BlurPrePass,
-            Chroma,
-            Distort,
-            Vignette,
-            ChromaDistort,
-            ChromaVignette,
-            DistortVignette,
-            ChromaDistortVignette
-        }
+        [SerializeField] private Shader m_Shader;
 
-        [SerializeField]
-        private Shader m_Shader;
+        private Material m_Material;
+
+        private RenderTextureUtility m_RTU;
+
         public Shader shader
         {
             get
@@ -168,7 +32,6 @@ namespace UnityStandardAssets.CinematicEffects
             }
         }
 
-        private Material m_Material;
         public Material material
         {
             get
@@ -179,8 +42,6 @@ namespace UnityStandardAssets.CinematicEffects
                 return m_Material;
             }
         }
-
-        private RenderTextureUtility m_RTU;
 
         private void OnEnable()
         {
@@ -211,10 +72,11 @@ namespace UnityStandardAssets.CinematicEffects
 
             if (distortion.enabled)
             {
-                float amount = 1.6f * Math.Max(Mathf.Abs(distortion.amount), 1f);
-                float theta = 0.01745329251994f * Math.Min(160f, amount);
-                float sigma = 2f * Mathf.Tan(theta * 0.5f);
-                var p0 = new Vector4(distortion.centerX, distortion.centerY, Mathf.Max(distortion.amountX, 1e-4f), Mathf.Max(distortion.amountY, 1e-4f));
+                var amount = 1.6f * Math.Max(Mathf.Abs(distortion.amount), 1f);
+                var theta = 0.01745329251994f * Math.Min(160f, amount);
+                var sigma = 2f * Mathf.Tan(theta * 0.5f);
+                var p0 = new Vector4(distortion.centerX, distortion.centerY, Mathf.Max(distortion.amountX, 1e-4f),
+                    Mathf.Max(distortion.amountY, 1e-4f));
                 var p1 = new Vector3(distortion.amount >= 0f ? theta : 1f / theta, sigma, 1f / distortion.scale);
                 material.EnableKeyword(distortion.amount >= 0f ? "DISTORT" : "UNDISTORT");
                 material.SetVector("_DistCenterScale", p0);
@@ -224,7 +86,8 @@ namespace UnityStandardAssets.CinematicEffects
             if (chromaticAberration.enabled)
             {
                 material.EnableKeyword("CHROMATIC_ABERRATION");
-                var chromaParams = new Vector4(chromaticAberration.color.r, chromaticAberration.color.g, chromaticAberration.color.b, chromaticAberration.amount * 0.001f);
+                var chromaParams = new Vector4(chromaticAberration.color.r, chromaticAberration.color.g,
+                    chromaticAberration.color.b, chromaticAberration.amount * 0.001f);
                 material.SetVector("_ChromaticAberration", chromaParams);
             }
 
@@ -235,8 +98,8 @@ namespace UnityStandardAssets.CinematicEffects
                 if (vignette.blur > 0f)
                 {
                     // Downscale + gaussian blur (2 passes)
-                    int w = source.width / 2;
-                    int h = source.height / 2;
+                    var w = source.width / 2;
+                    var h = source.height / 2;
                     var rt1 = m_RTU.GetTemporaryRenderTexture(w, h, 0, source.format);
                     var rt2 = m_RTU.GetTemporaryRenderTexture(w, h, 0, source.format);
 
@@ -281,12 +144,13 @@ namespace UnityStandardAssets.CinematicEffects
                 else
                 {
                     material.EnableKeyword("VIGNETTE_FILMIC");
-                    float roundness = (1f - vignette.roundness) * 6f + vignette.roundness;
-                    material.SetVector("_VignetteSettings", new Vector3(vignette.intensity, vignette.smoothness, roundness));
+                    var roundness = (1f - vignette.roundness) * 6f + vignette.roundness;
+                    material.SetVector("_VignetteSettings",
+                        new Vector3(vignette.intensity, vignette.smoothness, roundness));
                 }
             }
 
-            int pass = 0;
+            var pass = 0;
 
             if (vignette.enabled && chromaticAberration.enabled && distortion.enabled)
                 pass = (int)Pass.ChromaDistortVignette;
@@ -307,5 +171,131 @@ namespace UnityStandardAssets.CinematicEffects
 
             m_RTU.ReleaseAllTemporaryRenderTextures();
         }
+
+        private enum Pass
+        {
+            BlurPrePass,
+            Chroma,
+            Distort,
+            Vignette,
+            ChromaDistort,
+            ChromaVignette,
+            DistortVignette,
+            ChromaDistortVignette
+        }
+
+        #region Attributes
+
+        [AttributeUsage(AttributeTargets.Field)]
+        public class SettingsGroup : Attribute
+        {
+        }
+
+        [AttributeUsage(AttributeTargets.Field)]
+        public class AdvancedSetting : Attribute
+        {
+        }
+
+        #endregion
+
+        #region Settings
+
+        [Serializable]
+        public struct DistortionSettings
+        {
+            public bool enabled;
+
+            [Range(-100f, 100f)] [Tooltip("Distortion amount.")]
+            public float amount;
+
+            [Range(-1f, 1f)] [Tooltip("Distortion center point (X axis).")]
+            public float centerX;
+
+            [Range(-1f, 1f)] [Tooltip("Distortion center point (Y axis).")]
+            public float centerY;
+
+            [Range(0f, 1f)] [Tooltip("Amount multiplier on X axis. Set it to 0 to disable distortion on this axis.")]
+            public float amountX;
+
+            [Range(0f, 1f)] [Tooltip("Amount multiplier on Y axis. Set it to 0 to disable distortion on this axis.")]
+            public float amountY;
+
+            [Range(0.01f, 5f)] [Tooltip("Global screen scaling.")]
+            public float scale;
+
+            public static DistortionSettings defaultSettings =>
+                new()
+                {
+                    enabled = false,
+                    amount = 0f,
+                    centerX = 0f,
+                    centerY = 0f,
+                    amountX = 1f,
+                    amountY = 1f,
+                    scale = 1f
+                };
+        }
+
+        [Serializable]
+        public struct VignetteSettings
+        {
+            public bool enabled;
+
+            [ColorUsage(false)] [Tooltip("Vignette color. Use the alpha channel for transparency.")]
+            public Color color;
+
+            [Tooltip("Sets the vignette center point (screen center is [0.5,0.5]).")]
+            public Vector2 center;
+
+            [Range(0f, 3f)] [Tooltip("Amount of vignetting on screen.")]
+            public float intensity;
+
+            [Range(0.01f, 3f)] [Tooltip("Smoothness of the vignette borders.")]
+            public float smoothness;
+
+            [AdvancedSetting] [Range(0f, 1f)] [Tooltip("Lower values will make a square-ish vignette.")]
+            public float roundness;
+
+            [Range(0f, 1f)] [Tooltip("Blurs the corners of the screen. Leave this at 0 to disable it.")]
+            public float blur;
+
+            [Range(0f, 1f)] [Tooltip("Desaturate the corners of the screen. Leave this to 0 to disable it.")]
+            public float desaturate;
+
+            public static VignetteSettings defaultSettings =>
+                new()
+                {
+                    enabled = false,
+                    color = new Color(0f, 0f, 0f, 1f),
+                    center = new Vector2(0.5f, 0.5f),
+                    intensity = 1.4f,
+                    smoothness = 0.8f,
+                    roundness = 1f,
+                    blur = 0f,
+                    desaturate = 0f
+                };
+        }
+
+        [Serializable]
+        public struct ChromaticAberrationSettings
+        {
+            public bool enabled;
+
+            [ColorUsage(false)] [Tooltip("Channels to apply chromatic aberration to.")]
+            public Color color;
+
+            [Range(-50f, 50f)] [Tooltip("Amount of tangential distortion.")]
+            public float amount;
+
+            public static ChromaticAberrationSettings defaultSettings =>
+                new()
+                {
+                    enabled = false,
+                    color = Color.green,
+                    amount = 0f
+                };
+        }
+
+        #endregion
     }
 }

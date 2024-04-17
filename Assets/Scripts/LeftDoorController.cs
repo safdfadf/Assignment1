@@ -1,21 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LeftDoorController : MonoBehaviour
 {
-    public bool isOpen = false;
+    public bool isOpen;
     public float openSpeed = 5f;
-    private Quaternion originalRotation;
     private Quaternion openRotation;
+    private Quaternion originalRotation;
 
-    void Start()
+    private void Start()
     {
         originalRotation = transform.rotation;
         openRotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + 90, transform.eulerAngles.z);
     }
 
-    void Update()
+    private void Update()
     {
         if (isOpen)
             transform.rotation = Quaternion.Lerp(transform.rotation, openRotation, Time.deltaTime * openSpeed);

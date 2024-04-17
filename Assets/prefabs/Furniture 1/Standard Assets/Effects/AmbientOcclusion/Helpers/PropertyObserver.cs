@@ -5,17 +5,17 @@ namespace UnityStandardAssets.CinematicEffects
     public partial class AmbientOcclusion : MonoBehaviour
     {
         // Observer class that detects changes on properties
-        struct PropertyObserver
+        private struct PropertyObserver
         {
             // AO properties
-            bool _downsampling;
-            OcclusionSource _occlusionSource;
-            bool _ambientOnly;
-            bool _debug;
+            private bool _downsampling;
+            private OcclusionSource _occlusionSource;
+            private bool _ambientOnly;
+            private bool _debug;
 
             // Camera properties
-            int _pixelWidth;
-            int _pixelHeight;
+            private int _pixelWidth;
+            private int _pixelHeight;
 
             // Check if it has to reset itself for property changes.
             public bool CheckNeedsReset(Settings setting, Camera camera)

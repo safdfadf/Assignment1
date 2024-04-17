@@ -4,29 +4,29 @@ using UnityEngine;
 namespace UnityStandardAssets.CinematicEffects
 {
     [CustomEditor(typeof(DepthOfField))]
-    class DepthOfFieldEditor : Editor
+    internal class DepthOfFieldEditor : Editor
     {
-        private SerializedProperty m_VisualizeFocus;
-        private SerializedProperty m_TweakMode;
-        private SerializedProperty m_FilteringQuality;
-        private SerializedProperty m_ApertureShape;
         private SerializedProperty m_ApertureOrientation;
-
-        private SerializedProperty m_Transform;
-        private SerializedProperty m_FocusPlane;
-        private SerializedProperty m_Range;
-        private SerializedProperty m_NearPlane;
-        private SerializedProperty m_NearFalloff;
-        private SerializedProperty m_FarPlane;
-        private SerializedProperty m_FarFalloff;
-        private SerializedProperty m_NearBlurRadius;
+        private SerializedProperty m_ApertureShape;
         private SerializedProperty m_FarBlurRadius;
+        private SerializedProperty m_FarFalloff;
+        private SerializedProperty m_FarPlane;
+        private SerializedProperty m_FilteringQuality;
+        private SerializedProperty m_FocusPlane;
+        private SerializedProperty m_Intensity;
+        private SerializedProperty m_NearBlurRadius;
+        private SerializedProperty m_NearFalloff;
+        private SerializedProperty m_NearPlane;
+        private SerializedProperty m_Range;
+        private SerializedProperty m_Scale;
+        private SerializedProperty m_SpawnHeuristic;
 
         private SerializedProperty m_Texture;
-        private SerializedProperty m_Scale;
-        private SerializedProperty m_Intensity;
         private SerializedProperty m_Threshold;
-        private SerializedProperty m_SpawnHeuristic;
+
+        private SerializedProperty m_Transform;
+        private SerializedProperty m_TweakMode;
+        private SerializedProperty m_VisualizeFocus;
 
         private void OnEnable()
         {
@@ -131,6 +131,7 @@ namespace UnityStandardAssets.CinematicEffects
                 EditorGUILayout.PropertyField(m_Threshold);
                 EditorGUILayout.PropertyField(m_SpawnHeuristic);
             }
+
             EditorGUI.indentLevel--;
 
             serializedObject.ApplyModifiedProperties();

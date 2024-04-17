@@ -1,233 +1,207 @@
-using UnityEngine; 
 using UnityEditor;
+using UnityEngine;
 
 public class AutoSnap : EditorWindow
 {
-	private Vector3 prevPosition;
-	private Vector3 prevScale;
-	private Vector3 prevRotation;
+    private const string doSnapKey = "AutoSnap_doSnapKey";
+    private const string doScaleSnapKey = "AutoSmap_doScaleSnapKey";
+    private const string doRotateSnapKey = "AutoSnap_doRotateSnapKey";
+    private const string snapValueXKey = "AutoSnap_snapValueXKey";
+    private const string snapValueYKey = "AutoSnap_snapValueYKey";
+    private const string snapValueZKey = "AutoSnap_snapValueZKey";
+    private const string snapRotateValueKey = "AutoSnap_snapRotateValueKey";
 
-	// These need to be static because the auto snap window is
-	// recreated when opened from the menu
-	private static bool doSnap = false;
-	private static bool doScaleSnap = false;
-	private static bool doRotateSnap = false;
-	private static float snapValueX = 1;
-	private static float snapValueY = 1;
-	private static float snapValueZ = 1;
-	private static float snapRotateValue = 1;
+    // These need to be static because the auto snap window is
+    // recreated when opened from the menu
+    private static bool doSnap;
+    private static bool doScaleSnap;
+    private static bool doRotateSnap;
+    private static float snapValueX = 1;
+    private static float snapValueY = 1;
+    private static float snapValueZ = 1;
+    private static float snapRotateValue = 1;
 
-	// We need to remember the window doing the snap updates
-	// so it will do it when the window is closed
-	private static AutoSnap updateWindow = null;
+    // We need to remember the window doing the snap updates
+    // so it will do it when the window is closed
+    private static AutoSnap updateWindow;
+    private Vector3 prevPosition;
+    private Vector3 prevRotation;
+    private Vector3 prevScale;
 
-	private const string doSnapKey            = "AutoSnap_doSnapKey";
-	private const string doScaleSnapKey        = "AutoSmap_doScaleSnapKey";
-	private const string doRotateSnapKey      = "AutoSnap_doRotateSnapKey";
-	private const string snapValueXKey        = "AutoSnap_snapValueXKey";
-	private const string snapValueYKey        = "AutoSnap_snapValueYKey";
-	private const string snapValueZKey        = "AutoSnap_snapValueZKey";
-	private const string snapRotateValueKey = "AutoSnap_snapRotateValueKey";
+    public void Update()
+    {
+        if (!EditorApplication.isPlaying && Selection.transforms.Length > 0)
+        {
+            // Debug.Log("AutoSnap: Update");
 
-	[MenuItem( "Edit/Auto Snap %_l" )]
+            if (doSnap
+                && Selection.transforms[0].position != prevPosition)
+            {
+                Snap();
+                prevPosition = Selection.transforms[0].position;
+            }
 
-	static void Init()
-	{
-		// Debug.Log("AutoSnap: Init");
+            if (doScaleSnap
+                && Selection.transforms[0].localScale != prevScale)
+            {
+                ScaleSnap();
+                prevScale = Selection.transforms[0].localScale;
+            }
 
-		AutoSnap window = (AutoSnap)EditorWindow.GetWindow( typeof( AutoSnap ) );
-		window.maxSize = new Vector2( 200, 125 );
-		window.Show();
-	}
+            if (doRotateSnap
+                && Selection.transforms[0].eulerAngles != prevRotation)
+            {
+                RotateSnap();
+                prevRotation = Selection.transforms[0].eulerAngles;
+            }
+        }
+    }
 
-	public void OnGUI()
-	{
-		// Debug.Log("AutoSnap: OnGUI");
+    public void OnEnable()
+    {
+        // Debug.Log("AutoSnap: OnEnable");
 
-		doSnap = EditorGUILayout.Toggle( "Auto Snap", doSnap );
-		doScaleSnap = EditorGUILayout.Toggle( "Auto Snap Scale", doScaleSnap);
-		doRotateSnap = EditorGUILayout.Toggle ("Auto Snap Rotation", doRotateSnap);
+        if (EditorPrefs.HasKey(doSnapKey)) doSnap = EditorPrefs.GetBool(doSnapKey);
 
-		snapValueX = EditorGUILayout.FloatField( "Snap X Value", snapValueX );
-		snapValueY = EditorGUILayout.FloatField( "Snap Y Value", snapValueY );
-		snapValueZ = EditorGUILayout.FloatField( "Snap Z Value", snapValueZ );
+        if (EditorPrefs.HasKey(doScaleSnapKey)) doScaleSnap = EditorPrefs.GetBool(doScaleSnapKey);
 
-		snapRotateValue = EditorGUILayout.FloatField ("Rotation Snap Value", snapRotateValue);
-	}
+        if (EditorPrefs.HasKey(doRotateSnapKey)) doRotateSnap = EditorPrefs.GetBool(doRotateSnapKey);
 
-	public void Update()
-	{
-		if (!EditorApplication.isPlaying && Selection.transforms.Length > 0)
-		{
-			// Debug.Log("AutoSnap: Update");
+        if (EditorPrefs.HasKey(snapValueXKey)) snapValueX = EditorPrefs.GetFloat(snapValueXKey);
 
-			if ( doSnap                
-				&& Selection.transforms[0].position != prevPosition )
-			{
-				Snap();
-				prevPosition = Selection.transforms[0].position;
-			}
+        if (EditorPrefs.HasKey(snapValueYKey)) snapValueY = EditorPrefs.GetFloat(snapValueYKey);
 
-			if ( doScaleSnap
-				&& Selection.transforms[0].localScale != prevScale)
-			{
-				ScaleSnap();
-				prevScale = Selection.transforms[0].localScale;
-			}
+        if (EditorPrefs.HasKey(snapValueZKey)) snapValueZ = EditorPrefs.GetFloat(snapValueZKey);
 
-			if ( doRotateSnap
-				&& Selection.transforms[0].eulerAngles != prevRotation )
-			{
-				RotateSnap();
-				prevRotation = Selection.transforms[0].eulerAngles;
-			}
-		}
-	}
+        if (EditorPrefs.HasKey(snapRotateValueKey)) snapRotateValue = EditorPrefs.GetFloat(snapRotateValueKey);
 
-	private void Snap()
-	{
-		// Debug.Log("AutoSnap: Snap");
+        // Here, if a previous auto snap window was doing updates,
+        // remove it
+        if (updateWindow != null) EditorApplication.update -= updateWindow.Update;
 
-		foreach ( var transform in Selection.transforms )
-		{
-			var t = transform.transform.position;
-			t.x = RoundX( t.x );
-			t.y = RoundY( t.y );
-			t.z = RoundZ( t.z );
-			transform.transform.position = t;
-		}
-	}
+        // Now make this window handle the updates
+        EditorApplication.update += Update;
+    }
 
-	private void ScaleSnap()
-	{
-		// Debug.Log("AutoSnap: ScaleSnap");
+    public void OnDisable()
+    {
+        Debug.Log("AutoSnap: OnDisable");
 
-		foreach ( var transform in Selection.transforms )
-		{
-			var s = transform.transform.localScale;
-			s.x = ScaleRoundX(s.x);
-			s.y = ScaleRoundY(s.y);
-			s.z = ScaleRoundZ(s.z);
-			transform.transform.localScale = s;
-		}
-	}
+        EditorPrefs.SetBool(doSnapKey, doSnap);
+        EditorPrefs.SetBool(doScaleSnapKey, doScaleSnap);
+        EditorPrefs.SetBool(doRotateSnapKey, doRotateSnap);
+        EditorPrefs.SetFloat(snapValueXKey, snapValueX);
+        EditorPrefs.SetFloat(snapValueYKey, snapValueY);
+        EditorPrefs.SetFloat(snapValueZKey, snapValueZ);
+        EditorPrefs.SetFloat(snapRotateValueKey, snapRotateValue);
 
-	private void RotateSnap()
-	{
-		// Debug.Log("AutoSnap: RotateSnap");
+        // Remember we're doing the updates
+        updateWindow = this;
 
-		foreach (var transform in Selection.transforms)
-		{
-			var r = transform.transform.eulerAngles;
-			r.x = RotateRound (r.x);
-			r.y = RotateRound (r.y);
-			r.z = RotateRound (r.z);
-			transform.transform.eulerAngles = r;
-		}
-	}
+        // Normally you'd remove the window, however we don't
+        // as we want the snapping to continue when this window is closed
+        //EditorApplication.update -= Update;
+    }
 
-	private float RoundX( float input )
-	{
-		return snapValueX * Mathf.Round( ( input / snapValueX ) );
-	}
+    public void OnGUI()
+    {
+        // Debug.Log("AutoSnap: OnGUI");
 
-	private float RoundY( float input )
-	{
-		return snapValueY * Mathf.Round( ( input / snapValueY ) );
-	}
+        doSnap = EditorGUILayout.Toggle("Auto Snap", doSnap);
+        doScaleSnap = EditorGUILayout.Toggle("Auto Snap Scale", doScaleSnap);
+        doRotateSnap = EditorGUILayout.Toggle("Auto Snap Rotation", doRotateSnap);
 
-	private float RoundZ( float input )
-	{
-		return snapValueZ * Mathf.Round( ( input / snapValueZ ) );
-	}
+        snapValueX = EditorGUILayout.FloatField("Snap X Value", snapValueX);
+        snapValueY = EditorGUILayout.FloatField("Snap Y Value", snapValueY);
+        snapValueZ = EditorGUILayout.FloatField("Snap Z Value", snapValueZ);
 
-	private float ScaleRoundX( float input )
-	{
-		return snapValueX * Mathf.Round( ( input / snapValueX ) );
-	}
+        snapRotateValue = EditorGUILayout.FloatField("Rotation Snap Value", snapRotateValue);
+    }
 
-	private float ScaleRoundY( float input )
-	{
-		return snapValueY * Mathf.Round( ( input / snapValueY ) );
-	}
+    [MenuItem("Edit/Auto Snap %_l")]
+    private static void Init()
+    {
+        // Debug.Log("AutoSnap: Init");
 
-	private float ScaleRoundZ( float input )
-	{
-		return snapValueZ * Mathf.Round( ( input / snapValueZ ) );
-	}
+        var window = (AutoSnap)GetWindow(typeof(AutoSnap));
+        window.maxSize = new Vector2(200, 125);
+        window.Show();
+    }
 
-	private float RotateRound( float input )
-	{
-		return snapRotateValue * Mathf.Round( ( input / snapRotateValue ) );
-	}
+    private void Snap()
+    {
+        // Debug.Log("AutoSnap: Snap");
 
-	public void OnEnable() 
-	{
-		// Debug.Log("AutoSnap: OnEnable");
+        foreach (var transform in Selection.transforms)
+        {
+            var t = transform.transform.position;
+            t.x = RoundX(t.x);
+            t.y = RoundY(t.y);
+            t.z = RoundZ(t.z);
+            transform.transform.position = t;
+        }
+    }
 
-		if (EditorPrefs.HasKey(doSnapKey)) 
-		{
-			doSnap = EditorPrefs.GetBool(doSnapKey);
-		}
+    private void ScaleSnap()
+    {
+        // Debug.Log("AutoSnap: ScaleSnap");
 
-		if (EditorPrefs.HasKey(doScaleSnapKey))
-		{
-			doScaleSnap = EditorPrefs.GetBool(doScaleSnapKey);
-		}
+        foreach (var transform in Selection.transforms)
+        {
+            var s = transform.transform.localScale;
+            s.x = ScaleRoundX(s.x);
+            s.y = ScaleRoundY(s.y);
+            s.z = ScaleRoundZ(s.z);
+            transform.transform.localScale = s;
+        }
+    }
 
-		if (EditorPrefs.HasKey(doRotateSnapKey)) 
-		{
-			doRotateSnap = EditorPrefs.GetBool(doRotateSnapKey);
-		}
+    private void RotateSnap()
+    {
+        // Debug.Log("AutoSnap: RotateSnap");
 
-		if (EditorPrefs.HasKey(snapValueXKey)) 
-		{
-			snapValueX = EditorPrefs.GetFloat(snapValueXKey);
-		}
+        foreach (var transform in Selection.transforms)
+        {
+            var r = transform.transform.eulerAngles;
+            r.x = RotateRound(r.x);
+            r.y = RotateRound(r.y);
+            r.z = RotateRound(r.z);
+            transform.transform.eulerAngles = r;
+        }
+    }
 
-		if (EditorPrefs.HasKey(snapValueYKey)) 
-		{
-			snapValueY = EditorPrefs.GetFloat(snapValueYKey);
-		}
+    private float RoundX(float input)
+    {
+        return snapValueX * Mathf.Round(input / snapValueX);
+    }
 
-		if (EditorPrefs.HasKey(snapValueZKey)) 
-		{
-			snapValueZ = EditorPrefs.GetFloat(snapValueZKey);
-		}
+    private float RoundY(float input)
+    {
+        return snapValueY * Mathf.Round(input / snapValueY);
+    }
 
-		if (EditorPrefs.HasKey(snapRotateValueKey)) 
-		{
-			snapRotateValue = EditorPrefs.GetFloat(snapRotateValueKey);
-		}
+    private float RoundZ(float input)
+    {
+        return snapValueZ * Mathf.Round(input / snapValueZ);
+    }
 
-		// Here, if a previous auto snap window was doing updates,
-		// remove it
-		if (updateWindow != null)
-		{
-			EditorApplication.update -= updateWindow.Update;
-		}
+    private float ScaleRoundX(float input)
+    {
+        return snapValueX * Mathf.Round(input / snapValueX);
+    }
 
-		// Now make this window handle the updates
-		EditorApplication.update += Update;
-	}
+    private float ScaleRoundY(float input)
+    {
+        return snapValueY * Mathf.Round(input / snapValueY);
+    }
 
-	public void OnDisable()
-	{
-		Debug.Log("AutoSnap: OnDisable");
+    private float ScaleRoundZ(float input)
+    {
+        return snapValueZ * Mathf.Round(input / snapValueZ);
+    }
 
-		EditorPrefs.SetBool(doSnapKey, doSnap);
-		EditorPrefs.SetBool(doScaleSnapKey, doScaleSnap);
-		EditorPrefs.SetBool(doRotateSnapKey, doRotateSnap);
-		EditorPrefs.SetFloat(snapValueXKey, snapValueX);
-		EditorPrefs.SetFloat(snapValueYKey, snapValueY);
-		EditorPrefs.SetFloat(snapValueZKey, snapValueZ);
-		EditorPrefs.SetFloat(snapRotateValueKey, snapRotateValue);
-
-		// Remember we're doing the updates
-		updateWindow = this;
-
-		// Normally you'd remove the window, however we don't
-		// as we want the snapping to continue when this window is closed
-		//EditorApplication.update -= Update;
-	}
+    private float RotateRound(float input)
+    {
+        return snapRotateValue * Mathf.Round(input / snapRotateValue);
+    }
 }

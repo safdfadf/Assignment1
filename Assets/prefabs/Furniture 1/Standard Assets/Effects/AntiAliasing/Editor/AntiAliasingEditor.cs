@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 
 namespace UnityStandardAssets.CinematicEffects
@@ -6,18 +5,18 @@ namespace UnityStandardAssets.CinematicEffects
     [CustomEditor(typeof(AntiAliasing))]
     public class AntiAliasingEditor : Editor
     {
-        private string[] methodNames =
+        private IAntiAliasingEditor m_AntiAliasingEditor;
+        private readonly FXAAEditor m_FXAAEditor = new();
+
+        private int m_SelectedMethod;
+
+        private readonly SMAAEditor m_SMAAEditor = new();
+
+        private readonly string[] methodNames =
         {
             "Subpixel Morphological Anti-aliasing",
             "Fast Approximate Anti-aliasing"
         };
-
-        private int m_SelectedMethod;
-
-        private SMAAEditor m_SMAAEditor = new SMAAEditor();
-        private FXAAEditor m_FXAAEditor = new FXAAEditor();
-
-        IAntiAliasingEditor m_AntiAliasingEditor;
 
         private void OnEnable()
         {
@@ -34,7 +33,7 @@ namespace UnityStandardAssets.CinematicEffects
             EditorGUI.BeginChangeCheck();
             m_SelectedMethod = EditorGUILayout.Popup("Method", m_SelectedMethod, methodNames);
 
-            bool dirty = false;
+            var dirty = false;
 
             if (EditorGUI.EndChangeCheck())
             {

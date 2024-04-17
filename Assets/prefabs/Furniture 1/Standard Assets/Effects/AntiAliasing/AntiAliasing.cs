@@ -16,17 +16,17 @@ namespace UnityStandardAssets.CinematicEffects
             Fxaa
         }
 
-        [SerializeField]
-        private SMAA m_SMAA = new SMAA();
+        [SerializeField] private SMAA m_SMAA = new();
 
-        [SerializeField]
-        private FXAA m_FXAA = new FXAA();
+        [SerializeField] private FXAA m_FXAA = new();
 
-        [SerializeField, HideInInspector]
-        private int m_Method = (int)Method.Smaa;
+        [SerializeField] [HideInInspector] private int m_Method = (int)Method.Smaa;
+
+        private Camera m_Camera;
+
         public int method
         {
-            get { return m_Method; }
+            get => m_Method;
 
             set
             {
@@ -43,12 +43,10 @@ namespace UnityStandardAssets.CinematicEffects
             {
                 if (method == (int)Method.Smaa)
                     return m_SMAA;
-                else
-                    return m_FXAA;
+                return m_FXAA;
             }
         }
 
-        private Camera m_Camera;
         public Camera cameraComponent
         {
             get
@@ -72,14 +70,14 @@ namespace UnityStandardAssets.CinematicEffects
             m_FXAA.OnDisable();
         }
 
-        private void OnPreCull()
-        {
-            current.OnPreCull(cameraComponent);
-        }
-
         private void OnPostRender()
         {
             current.OnPostRender(cameraComponent);
+        }
+
+        private void OnPreCull()
+        {
+            current.OnPreCull(cameraComponent);
         }
 
         private void OnRenderImage(RenderTexture source, RenderTexture destination)

@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4312911036958709863, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.67
       objectReference: {fileID: 0}
     - target: {fileID: 4312911036958709863, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
       propertyPath: m_LocalPosition.z
@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 187314649}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

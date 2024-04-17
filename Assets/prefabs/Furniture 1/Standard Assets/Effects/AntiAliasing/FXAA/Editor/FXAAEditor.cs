@@ -4,7 +4,7 @@ namespace UnityStandardAssets.CinematicEffects
 {
     public class FXAAEditor : IAntiAliasingEditor
     {
-        private string[] presetNames =
+        private readonly string[] presetNames =
         {
             "Extreme performance",
             "Performance",
@@ -23,9 +23,11 @@ namespace UnityStandardAssets.CinematicEffects
             var fxaaTarget = (FXAA)target;
 
             if (!fxaaTarget.validSourceFormat)
-                EditorGUILayout.HelpBox("FXAA should be used at the end of the post-processing stack after conversion to LDR (after Tonemapping) to maximize quality and avoid artifacts.", MessageType.Warning);
+                EditorGUILayout.HelpBox(
+                    "FXAA should be used at the end of the post-processing stack after conversion to LDR (after Tonemapping) to maximize quality and avoid artifacts.",
+                    MessageType.Warning);
 
-            int selectedPreset = 2;
+            var selectedPreset = 2;
 
             if (fxaaTarget.preset.Equals(FXAA.Preset.extremePerformancePreset))
                 selectedPreset = 0;
@@ -51,6 +53,7 @@ namespace UnityStandardAssets.CinematicEffects
                 fxaaTarget.preset = FXAA.availablePresets[selectedPreset];
                 return true;
             }
+
             return false;
         }
     }

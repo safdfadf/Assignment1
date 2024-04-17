@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class Ui : MonoBehaviour
 {
     private TextMeshProUGUI diamondText;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         diamondText = GetComponent<TextMeshProUGUI>();
     }
 
-    public void UpdateGear(Player_Inventory inventory)
+    public void UpdateGear(PlayerInventory inventory)
     {
         diamondText.text = inventory.numberofGears.ToString();
     }

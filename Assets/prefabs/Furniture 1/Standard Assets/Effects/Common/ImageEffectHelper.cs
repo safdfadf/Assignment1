@@ -7,6 +7,8 @@ namespace UnityStandardAssets.CinematicEffects
 {
     public static class ImageEffectHelper
     {
+        public static bool supportsDX11 => SystemInfo.graphicsShaderLevel >= 50 && SystemInfo.supportsComputeShaders;
+
         public static bool IsSupported(Shader s, bool needDepth, bool needHdr, MonoBehaviour effect)
         {
 #if UNITY_EDITOR
@@ -53,11 +55,6 @@ namespace UnityStandardAssets.CinematicEffects
             var material = new Material(s);
             material.hideFlags = HideFlags.DontSave;
             return material;
-        }
-
-        public static bool supportsDX11
-        {
-            get { return SystemInfo.graphicsShaderLevel >= 50 && SystemInfo.supportsComputeShaders; }
         }
     }
 }

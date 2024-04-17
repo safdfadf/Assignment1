@@ -1,31 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.PlasticSCM.Editor;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Player_Inventory : MonoBehaviour
+public class PlayerInventory : MonoBehaviour
 {
-    public int numberofGears { get; private set; }
-    private GameManager gameManager;
-    public UnityEvent<Player_Inventory> OnGearCollected;
-    [SerializeField]
-    int gearsNeeded = 4;
+    public UnityEvent<PlayerInventory> OnGearCollected;
+
+    [SerializeField] private int gearsNeeded = 4;
+
     public Light[] lightTurnOn;
-    public bool hasReachedSwitch = false;
-    [SerializeField] float timeLimit = 5f;
+    public bool hasReachedSwitch;
+    [SerializeField] private float timeLimit = 5f;
     public float timer;
-    private Animator Anim;
+    private Animator animator;
+    private GameManager gameManager;
+    public int numberofGears { get; private set; }
 
     private void Start()
     {
         timer = timeLimit;
         gameManager = FindObjectOfType<GameManager>();
-        Anim = GetComponent<Animator>();
-        Collectable[] collectables  = FindObjectsOfType<Collectable>();
+        animator = GetComponent<Animator>();
+        var collectables = FindObjectsOfType<Collectable>();
         gearsNeeded = collectables.Length;
-
     }
 
     private void Update()
@@ -35,7 +31,7 @@ public class Player_Inventory : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
-                Anim.SetBool("GameOver", true);
+                animator.SetBool("GameOver", true);
                 gameManager.GameOver();
             }
         }
@@ -43,28 +39,22 @@ public class Player_Inventory : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Switch") && numberofGears >= gearsNeeded)
-        {
-            ActivateSwitch();
-        }
+        if (collision.gameObject.CompareTag("Switch") && numberofGears >= gearsNeeded) ActivateSwitch();
     }
 
-    void ActivateSwitch()
+    private void ActivateSwitch()
     {
         // Logic for lights
         Debug.Log("Light On, Level Won");
-        foreach (Light light in lightTurnOn)
-        {
-            light.enabled = true;
-        }
+        foreach (var light in lightTurnOn) light.enabled = true;
 
         // Level Won
-        Anim.SetBool("Victory", true);
+        animator.SetBool("Victory", true);
         PlayWinMusic(); // Play win music
         Invoke("CompleteLevel", 5); // Delay the level completion to allow win animation/music
     }
 
-    void CompleteLevel()
+    private void CompleteLevel()
     {
         FindObjectOfType<GameManager>().LevelWon();
     }
@@ -75,9 +65,9 @@ public class Player_Inventory : MonoBehaviour
         OnGearCollected.Invoke(this);
     }
 
-    
+
     private void PlayWinMusic()
     {
-        SoundManager.Instance.PlayWinMusic(); 
+        SoundManager.Instance.PlayWinMusic();
     }
 }

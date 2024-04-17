@@ -96,50 +96,50 @@ float GradientNoise(float2 uv)
 float CheckBounds(float2 uv, float d)
 {
     float ob = any(uv < 0) + any(uv > 1);
-#if defined(UNITY_REVERSED_Z)
+    #if defined(UNITY_REVERSED_Z)
     ob += (d <= 0.00001);
-#else
+    #else
     ob += (d >= 0.99999);
-#endif
+    #endif
     return ob * 1e8;
 }
 
 // Depth/normal sampling functions
 float SampleDepth(float2 uv)
 {
-#if SOURCE_GBUFFER || SOURCE_DEPTH
+    #if SOURCE_GBUFFER || SOURCE_DEPTH
     float d = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, uv);
     return LinearEyeDepth(d) + CheckBounds(uv, d);
-#else
+    #else
     float4 cdn = tex2D(_CameraDepthNormalsTexture, uv);
     float d = DecodeFloatRG(cdn.zw);
     return d * _ProjectionParams.z + CheckBounds(uv, d);
-#endif
+    #endif
 }
 
 float3 SampleNormal(float2 uv)
 {
-#if SOURCE_GBUFFER
+    #if SOURCE_GBUFFER
     float3 norm = tex2D(_CameraGBufferTexture2, uv).xyz;
     norm = norm * 2 - any(norm); // gets (0,0,0) when norm == 0
     return mul((float3x3)unity_WorldToCamera, norm);
-#else
+    #else
     float4 cdn = tex2D(_CameraDepthNormalsTexture, uv);
     return DecodeViewNormalStereo(cdn) * float3(1, 1, -1);
-#endif
+    #endif
 }
 
 float SampleDepthNormal(float2 uv, out float3 normal)
 {
-#if SOURCE_GBUFFER || SOURCE_DEPTH
+    #if SOURCE_GBUFFER || SOURCE_DEPTH
     normal = SampleNormal(uv);
     return SampleDepth(uv);
-#else
+    #else
     float4 cdn = tex2D(_CameraDepthNormalsTexture, uv);
     normal = DecodeViewNormalStereo(cdn) * float3(1, 1, -1);
     float d = DecodeFloatRG(cdn.zw);
     return d * _ProjectionParams.z + CheckBounds(uv, d);
-#endif
+    #endif
 }
 
 // Reconstruct view-space position from UV and depth.
@@ -166,14 +166,14 @@ half3 CombineOcclusion(half3 src, half3 ao)
 float3 PickSamplePoint(float2 uv, float index)
 {
     // Uniformaly distributed points on a unit sphere http://goo.gl/X2F1Ho
-#if FIXED_SAMPLING_PATTERN
+    #if FIXED_SAMPLING_PATTERN
     float gn = GradientNoise(uv * _TargetScale);
     float u = frac(UVRandom(0, index) + gn) * 2 - 1;
     float theta = (UVRandom(1, index) + gn) * UNITY_PI * 2;
-#else
+    #else
     float u = UVRandom(uv.x + _Time.x, uv.y + index) * 2 - 1;
     float theta = UVRandom(-uv.x - _Time.x, uv.y + index) * UNITY_PI * 2;
-#endif
+    #endif
     float3 v = float3(CosSin(theta) * sqrt(1 - u * u), u);
     // Make them distributed between [0, _Radius]
     float l = sqrt((index + 1) / _SampleCount) * _Radius;
@@ -184,7 +184,7 @@ float3 PickSamplePoint(float2 uv, float index)
 float EstimateOcclusion(float2 uv)
 {
     // Parameters used in coordinate conversion
-    float3x3 proj = (float3x3)unity_CameraProjection;
+    float3x3 proj = unity_CameraProjection;
     float2 p11_22 = float2(unity_CameraProjection._11, unity_CameraProjection._22);
     float2 p13_31 = float2(unity_CameraProjection._13, unity_CameraProjection._23);
 
@@ -192,11 +192,11 @@ float EstimateOcclusion(float2 uv)
     float3 norm_o;
     float depth_o = SampleDepthNormal(uv, norm_o);
 
-#if SOURCE_DEPTHNORMALS
+    #if SOURCE_DEPTHNORMALS
     // Offset the depth value to avoid precision error.
     // (depth in the DepthNormals mode has only 16-bit precision)
     depth_o -= _ProjectionParams.z / 65536;
-#endif
+    #endif
 
     // Reconstruct the view-space position.
     float3 vpos_o = ReconstructViewPos(uv, depth_o, p11_22, p13_31);
@@ -207,13 +207,13 @@ float EstimateOcclusion(float2 uv)
     for (int s = 0; s < _SampleCount; s++)
     {
         // Sample point
-#if SHADER_API_D3D11
+        #if SHADER_API_D3D11
         // This 'floor(1.0001 * s)' operation is needed to avoid a NVidia
         // shader issue. This issue is only observed on DX11.
         float3 v_s1 = PickSamplePoint(uv, floor(1.0001 * s));
-#else
+        #else
         float3 v_s1 = PickSamplePoint(uv, s);
-#endif
+        #endif
         v_s1 = faceforward(v_s1, -norm_o, v_s1);
         float3 vpos_s1 = vpos_o + v_s1;
 
@@ -243,7 +243,7 @@ float EstimateOcclusion(float2 uv)
 // Geometry-aware separable blur filter (large kernel)
 half SeparableBlurLarge(sampler2D tex, float2 uv, float2 delta)
 {
-#if !SHADER_API_MOBILE
+    #if !SHADER_API_MOBILE
     // 9-tap Gaussian blur with adaptive sampling
     float2 uv1a = uv - delta;
     float2 uv1b = uv + delta;
@@ -271,7 +271,7 @@ half SeparableBlurLarge(sampler2D tex, float2 uv, float2 delta)
     s += tex2D(_MainTex, uv3b).r * w3b;
 
     return s / (w0 + w1a + w1b + w2a + w2b + w3a + w3b);
-#else
+    #else
     // 9-tap Gaussian blur with linear sampling
     // (less quality but slightly fast)
     float2 uv1a = uv - delta * 1.3846153846;
@@ -294,7 +294,7 @@ half SeparableBlurLarge(sampler2D tex, float2 uv, float2 delta)
     s += tex2D(_MainTex, uv2b).r * w2b;
 
     return s / (w0 + w1a + w1b + w2a + w2b);
-#endif
+    #endif
 }
 
 // Geometry-aware separable blur filter (small kernel)
@@ -368,11 +368,11 @@ v2f_img vert_gbuffer(appdata_img v)
 {
     v2f_img o;
     o.pos = v.vertex * float4(2, 2, 0, 0) + float4(0, 0, 0, 1);
-#if UNITY_UV_STARTS_AT_TOP
+    #if UNITY_UV_STARTS_AT_TOP
     o.uv = v.texcoord * float2(1, -1) + float2(0, 1);
-#else
+    #else
     o.uv = v.texcoord;
-#endif
+    #endif
     return o;
 }
 

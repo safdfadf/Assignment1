@@ -3,7 +3,7 @@
 RWStructuredBuffer<uint4> _Histogram;
 Texture2D<float4> _Source;
 
-CBUFFER_START (Params)
+CBUFFER_START(Params)
     uint4 _Channels;
     uint _IsLinear;
     float _Height;
@@ -17,10 +17,10 @@ groupshared uint4 gs_histogram[256];
 void KHistogramGather(uint3 id : SV_DispatchThreadID, uint3 _group_thread_id : SV_GroupThreadID)
 {
     const uint thread_id = _group_thread_id.y * 32 + _group_thread_id.x;
-    
+
     if (thread_id < 256)
         gs_histogram[thread_id] = uint4(0, 0, 0, 0);
-    
+
     uint sw, sh;
     _Source.GetDimensions(sw, sh);
 
@@ -32,11 +32,11 @@ void KHistogramGather(uint3 id : SV_DispatchThreadID, uint3 _group_thread_id : S
         float3 color = saturate(_Source[id.xy].xyz);
         if (_IsLinear > 0)
             color = LinearToGammaSpace(color);
-        
+
         // Convert color & luminance to histogram bin
         uint3 idx_c = (uint3)(round(color * 255.0));
         uint idx_l = (uint)(round(dot(color.rgb, float3(0.2126, 0.7152, 0.0722)) * 255.0));
-    
+
         // Fill the group shared histogram
         if (_Channels.r > 0) InterlockedAdd(gs_histogram[idx_c.x].x, 1); // Red
         if (_Channels.g > 0) InterlockedAdd(gs_histogram[idx_c.y].y, 1); // Green
@@ -45,7 +45,7 @@ void KHistogramGather(uint3 id : SV_DispatchThreadID, uint3 _group_thread_id : S
     }
 
     GroupMemoryBarrierWithGroupSync();
-    
+
     // Merge
     if (thread_id < 256)
     {
@@ -71,9 +71,9 @@ void KHistogramScale(uint3 _group_thread_id : SV_GroupThreadID)
 
     // Parallel reduction to find the max value
     [unroll]
-    for(uint i = 256 >> 1; i > 0; i >>= 1)
+    for (uint i = 256 >> 1; i > 0; i >>= 1)
     {
-        if(thread_id < i)
+        if (thread_id < i)
             gs_pyramid[thread_id] = max(gs_pyramid[thread_id], gs_pyramid[thread_id + i]);
 
         GroupMemoryBarrierWithGroupSync();

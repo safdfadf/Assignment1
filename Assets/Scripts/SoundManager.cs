@@ -2,20 +2,19 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager Instance { get; private set; }
-
     public AudioSource backgroundMusic;
-    public AudioClip winMusicClip; 
+    public AudioClip winMusicClip;
 
     private AudioSource audioSource;
+    public static SoundManager Instance { get; private set; }
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            audioSource = GetComponent<AudioSource>(); 
+            audioSource = GetComponent<AudioSource>();
         }
         else
         {
@@ -25,10 +24,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBackgroundMusic()
     {
-        if (!backgroundMusic.isPlaying)
-        {
-            backgroundMusic.Play();
-        }
+        if (!backgroundMusic.isPlaying) backgroundMusic.Play();
     }
 
     public void StopBackgroundMusic()
@@ -36,7 +32,7 @@ public class SoundManager : MonoBehaviour
         backgroundMusic.Stop();
     }
 
-    
+
     public void PlayWinMusic()
     {
         if (audioSource != null && winMusicClip != null)

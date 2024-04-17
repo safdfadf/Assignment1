@@ -11,44 +11,75 @@ namespace UnityStandardAssets.CinematicEffects
 #endif
     public class Bloom : MonoBehaviour
     {
+        #region Public Properties
+
+        [SerializeField] public Settings settings = Settings.defaultSettings;
+
+        #endregion
+
+        [SerializeField] [HideInInspector] private Shader m_Shader;
+
+        private Material m_Material;
+
+        public Shader shader
+        {
+            get
+            {
+                if (m_Shader == null)
+                {
+                    const string shaderName = "Hidden/Image Effects/Cinematic/Bloom";
+                    m_Shader = Shader.Find(shaderName);
+                }
+
+                return m_Shader;
+            }
+        }
+
+        public Material material
+        {
+            get
+            {
+                if (m_Material == null)
+                    m_Material = ImageEffectHelper.CheckShaderAndCreateMaterial(shader);
+
+                return m_Material;
+            }
+        }
+
         [Serializable]
         public struct Settings
         {
-            [SerializeField]
-            [Tooltip("Filters out pixels under this level of brightness.")]
+            [SerializeField] [Tooltip("Filters out pixels under this level of brightness.")]
             public float threshold;
+
+            [SerializeField] [Range(0, 1)] [Tooltip("Makes transition between under/over-threshold gradual.")]
+            public float softKnee;
+
+            [SerializeField]
+            [Range(1, 7)]
+            [Tooltip("Changes extent of veiling effects in a screen resolution-independent fashion.")]
+            public float radius;
+
+            [SerializeField] [Tooltip("Blend factor of the result image.")]
+            public float intensity;
+
+            [SerializeField] [Tooltip("Controls filter quality and buffer resolution.")]
+            public bool highQuality;
+
+            [SerializeField] [Tooltip("Reduces flashing noise with an additional filter.")]
+            public bool antiFlicker;
 
             public float thresholdGamma
             {
-                set { threshold = value; }
-                get { return Mathf.Max(0.0f, threshold); }
+                set => threshold = value;
+                get => Mathf.Max(0.0f, threshold);
             }
 
             public float thresholdLinear
             {
-                set { threshold = Mathf.LinearToGammaSpace(value); }
-                get { return Mathf.GammaToLinearSpace(thresholdGamma); }
+                set => threshold = Mathf.LinearToGammaSpace(value);
+                get => Mathf.GammaToLinearSpace(thresholdGamma);
             }
-
-            [SerializeField, Range(0, 1)]
-            [Tooltip("Makes transition between under/over-threshold gradual.")]
-            public float softKnee;
-
-            [SerializeField, Range(1, 7)]
-            [Tooltip("Changes extent of veiling effects in a screen resolution-independent fashion.")]
-            public float radius;
-
-            [SerializeField]
-            [Tooltip("Blend factor of the result image.")]
-            public float intensity;
-
-            [SerializeField]
-            [Tooltip("Controls filter quality and buffer resolution.")]
-            public bool highQuality;
-
-            [SerializeField]
-            [Tooltip("Reduces flashing noise with an additional filter.")]
-            public bool antiFlicker;
 
             public static Settings defaultSettings
             {
@@ -68,47 +99,11 @@ namespace UnityStandardAssets.CinematicEffects
             }
         }
 
-        #region Public Properties
-
-        [SerializeField]
-        public Settings settings = Settings.defaultSettings;
-
-        #endregion
-
-        [SerializeField, HideInInspector]
-        private Shader m_Shader;
-
-        public Shader shader
-        {
-            get
-            {
-                if (m_Shader == null)
-                {
-                    const string shaderName = "Hidden/Image Effects/Cinematic/Bloom";
-                    m_Shader = Shader.Find(shaderName);
-                }
-
-                return m_Shader;
-            }
-        }
-
-        private Material m_Material;
-        public Material material
-        {
-            get
-            {
-                if (m_Material == null)
-                    m_Material = ImageEffectHelper.CheckShaderAndCreateMaterial(shader);
-
-                return m_Material;
-            }
-        }
-
         #region Private Members
 
-        const int kMaxIterations = 16;
-        RenderTexture[] m_blurBuffer1 = new RenderTexture[kMaxIterations];
-        RenderTexture[] m_blurBuffer2 = new RenderTexture[kMaxIterations];
+        private const int kMaxIterations = 16;
+        private readonly RenderTexture[] m_blurBuffer1 = new RenderTexture[kMaxIterations];
+        private readonly RenderTexture[] m_blurBuffer2 = new RenderTexture[kMaxIterations];
 
         private void OnEnable()
         {
@@ -170,7 +165,7 @@ namespace UnityStandardAssets.CinematicEffects
             for (var level = 0; level < iterations; level++)
             {
                 m_blurBuffer1[level] = RenderTexture.GetTemporary(last.width / 2, last.height / 2, 0, rtFormat);
-                Graphics.Blit(last, m_blurBuffer1[level], material, level == 0 ? (settings.antiFlicker ? 3 : 2) : 4);
+                Graphics.Blit(last, m_blurBuffer1[level], material, level == 0 ? settings.antiFlicker ? 3 : 2 : 4);
                 last = m_blurBuffer1[level];
             }
 

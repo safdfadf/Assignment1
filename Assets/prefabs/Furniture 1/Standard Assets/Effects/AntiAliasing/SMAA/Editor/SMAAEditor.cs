@@ -1,31 +1,24 @@
-using UnityEditor;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using System.Reflection;
-using UnityEngine.Serialization;
+using UnityEditor;
 
 namespace UnityStandardAssets.CinematicEffects
 {
     public class SMAAEditor : IAntiAliasingEditor
     {
-        private List<SerializedProperty> m_TopLevelFields = new List<SerializedProperty>();
-
-        [Serializable]
-        class InfoMap
-        {
-            public string name;
-            public bool experimental;
-            public bool quality;
-            public List<SerializedProperty> properties;
-        }
-        private List<InfoMap> m_GroupFields = new List<InfoMap>();
+        private readonly List<InfoMap> m_GroupFields = new();
+        private readonly List<SerializedProperty> m_TopLevelFields = new();
 
         public void OnEnable(SerializedObject serializedObject, string path)
         {
-            var topLevelSettings = typeof(SMAA).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Where(x => x.GetCustomAttributes(typeof(SMAA.TopLevelSettings), false).Any());
-            var settingsGroups = typeof(SMAA).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Where(x => x.GetCustomAttributes(typeof(SMAA.SettingsGroup), false).Any());
+            var topLevelSettings = typeof(SMAA)
+                .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Where(x =>
+                    x.GetCustomAttributes(typeof(SMAA.TopLevelSettings), false).Any());
+            var settingsGroups = typeof(SMAA)
+                .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(x => x.GetCustomAttributes(typeof(SMAA.SettingsGroup), false).Any());
 
             foreach (var group in topLevelSettings)
             {
@@ -52,15 +45,13 @@ namespace UnityStandardAssets.CinematicEffects
                         infoGroup.properties = new List<SerializedProperty>();
                         infoGroup.name = group.Name;
                         infoGroup.quality = group.FieldType == typeof(SMAA.QualitySettings);
-                        infoGroup.experimental = group.GetCustomAttributes(typeof(SMAA.ExperimentalGroup), false).Length > 0;
+                        infoGroup.experimental =
+                            group.GetCustomAttributes(typeof(SMAA.ExperimentalGroup), false).Length > 0;
                         m_GroupFields.Add(infoGroup);
                     }
 
                     var property = serializedObject.FindProperty(searchPath + setting.Name);
-                    if (property != null)
-                    {
-                        infoGroup.properties.Add(property);
-                    }
+                    if (property != null) infoGroup.properties.Add(property);
                 }
             }
         }
@@ -74,12 +65,9 @@ namespace UnityStandardAssets.CinematicEffects
 
             foreach (var group in m_GroupFields)
             {
-                if (group.quality && (target as SMAA).settings.quality != SMAA.QualityPreset.Custom)
-                {
-                    continue;
-                }
+                if (group.quality && (target as SMAA).settings.quality != SMAA.QualityPreset.Custom) continue;
 
-                string title = ObjectNames.NicifyVariableName(group.name);
+                var title = ObjectNames.NicifyVariableName(group.name);
                 if (group.experimental)
                     title += " (Experimental)";
 
@@ -87,7 +75,8 @@ namespace UnityStandardAssets.CinematicEffects
                 EditorGUILayout.LabelField(title, EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
 
-                var enabledField = group.properties.FirstOrDefault(x => x.propertyPath == "m_SMAA." + group.name + ".enabled");
+                var enabledField =
+                    group.properties.FirstOrDefault(x => x.propertyPath == "m_SMAA." + group.name + ".enabled");
                 if (enabledField != null && !enabledField.boolValue)
                 {
                     EditorGUILayout.PropertyField(enabledField);
@@ -100,7 +89,17 @@ namespace UnityStandardAssets.CinematicEffects
 
                 EditorGUI.indentLevel--;
             }
+
             return EditorGUI.EndChangeCheck();
+        }
+
+        [Serializable]
+        private class InfoMap
+        {
+            public string name;
+            public bool experimental;
+            public bool quality;
+            public List<SerializedProperty> properties;
         }
     }
 }

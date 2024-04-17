@@ -4,7 +4,148 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9bb81682-4937-4b5d-a911-58c95d90e5a1" name="Changes" comment="" />
+    <list default="true" id="9bb81682-4937-4b5d-a911-58c95d90e5a1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/EnvironmentChecker.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/ParkourController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Assignment1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Assignment1/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/CrossPlatformInput/CrossPlatformInputInitialize.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/CrossPlatformInput/CrossPlatformInputInitialize.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/AntialiasingEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/AntialiasingEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/BloomAndFlaresEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/BloomAndFlaresEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/BloomEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/BloomEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/CameraMotionBlurEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/CameraMotionBlurEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/ColorCorrectionCurvesEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/ColorCorrectionCurvesEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/ColorCorrectionLookupEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/ColorCorrectionLookupEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/CreaseShadingEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/CreaseShadingEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/DepthOfFieldDeprecatedEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/DepthOfFieldDeprecatedEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/DepthOfFieldEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/DepthOfFieldEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/EdgeDetectionEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/EdgeDetectionEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/NoiseAndGrainEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/NoiseAndGrainEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/SunShaftsEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/SunShaftsEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/TonemappingEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/TonemappingEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/ImageEffects/VignetteAndChromaticAberrationEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/ImageEffects/VignetteAndChromaticAberrationEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ghost3D/Ghost3D - Copy/Scripts/ButtonName.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ghost3D/Ghost3D - Copy/Scripts/ButtonName.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Ghost3D/Ghost3D - Copy/Scripts/Ghost.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ghost3D/Ghost3D - Copy/Scripts/Ghost.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Puppet Kid/Readme/Scripts/Editor/ReadmeEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Puppet Kid/Readme/Scripts/Editor/ReadmeEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Puppet Kid/Readme/Scripts/Readme.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Puppet Kid/Readme/Scripts/Readme.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SeanTest.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SeanTest.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AdjustAnimationSpeed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AdjustAnimationSpeed.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Collectable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Collectable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CollectableFinder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CollectableFinder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DoorInteraction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DoorInteraction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/EnemyScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/EnemyScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy/GhostAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy/GhostAI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Environment_Chekker.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Environment_Chekker.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnvironmentChecker.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LeftDoorController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LeftDoorController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ObjectiveMenuController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ObjectiveMenuController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Parkor_Controller.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Parkor_Controller.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ParkourController.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PauseMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PauseMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PauseMenuController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PauseMenuController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player_Controller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player_Controller.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player_Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerInventory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Player_Inventory.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerInventory.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RightDoorController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RightDoorController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SoundManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SoundManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Timer_Script.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TimerScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Timer_Script.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TimerScript.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Ui.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Ui.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Shaders/TMPro.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Shaders/TMPro.cginc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Sprites/EmojiOne.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Sprites/EmojiOne.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/HouseFurniturePack/Scripts/Editor/AutoSnap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/HouseFurniturePack/Scripts/Editor/AutoSnap.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Lamp Assets/Scripts/Lamp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Lamp Assets/Scripts/Lamp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/AxisTouchButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/AxisTouchButton.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/ButtonHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/ButtonHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/CrossPlatformInputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/CrossPlatformInputManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/InputAxisScrollbar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/InputAxisScrollbar.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/Joystick.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/Joystick.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/MobileControlRig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/MobileControlRig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/PlatformSpecific/MobileInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/PlatformSpecific/MobileInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/TiltInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/TiltInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/TouchPad.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/TouchPad.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/VirtualInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/CrossPlatformInput/Scripts/VirtualInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AmbientOcclusion/AmbientOcclusion.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AmbientOcclusion/AmbientOcclusion.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AmbientOcclusion/Editor/AmbientOcclusionEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AmbientOcclusion/Editor/AmbientOcclusionEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AmbientOcclusion/Helpers/PropertyObserver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AmbientOcclusion/Helpers/PropertyObserver.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AmbientOcclusion/Helpers/Settings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AmbientOcclusion/Helpers/Settings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AmbientOcclusion/Resources/AmbientOcclusion.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AmbientOcclusion/Resources/AmbientOcclusion.cginc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/AntiAliasing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/AntiAliasing.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/Editor/AntiAliasingEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/Editor/AntiAliasingEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/Editor/IAntiAliasingEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/Editor/IAntiAliasingEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/FXAA/Editor/FXAAEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/FXAA/Editor/FXAAEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/FXAA/FXAA.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/FXAA/FXAA.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/FXAA/Resources/FXAA3.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/FXAA/Resources/FXAA3.cginc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/IAntiAliasing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/IAntiAliasing.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/SMAA/Editor/SMAAEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/SMAA/Editor/SMAAEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/SMAA/Resources/SMAA.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/SMAA/Resources/SMAA.cginc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/SMAA/SMAA.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/AntiAliasing/SMAA/SMAA.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Bloom/Bloom.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Bloom/Bloom.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Bloom/Editor/BloomEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Bloom/Editor/BloomEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Bloom/Editor/BloomGraphDrawer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Bloom/Editor/BloomGraphDrawer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Bloom/Resources/Bloom.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Bloom/Resources/Bloom.cginc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Common/Editor/EditorGUIHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Common/Editor/EditorGUIHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Common/Editor/FieldFinder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Common/Editor/FieldFinder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Common/Editor/MinDrawer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Common/Editor/MinDrawer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Common/ImageEffectHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Common/ImageEffectHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Common/MinAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Common/MinAttribute.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Common/RenderTextureUtility.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/Common/RenderTextureUtility.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/DepthOfField/DepthOfField.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/DepthOfField/DepthOfField.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/DepthOfField/Editor/DepthOfFieldEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/DepthOfField/Editor/DepthOfFieldEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Antialiasing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Antialiasing.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Bloom.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Bloom.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/BloomAndFlares.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/BloomAndFlares.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/BloomOptimized.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/BloomOptimized.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Blur.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Blur.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/BlurOptimized.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/BlurOptimized.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/CameraMotionBlur.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/CameraMotionBlur.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ColorCorrectionCurves.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ColorCorrectionCurves.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ColorCorrectionLookup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ColorCorrectionLookup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ColorCorrectionRamp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ColorCorrectionRamp.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ContrastEnhance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ContrastEnhance.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ContrastStretch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ContrastStretch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/CreaseShading.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/CreaseShading.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/DepthOfField.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/DepthOfField.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/DepthOfFieldDeprecated.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/DepthOfFieldDeprecated.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/EdgeDetection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/EdgeDetection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Fisheye.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Fisheye.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/GlobalFog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/GlobalFog.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Grayscale.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Grayscale.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ImageEffectBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ImageEffectBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ImageEffects.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ImageEffects.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/MotionBlur.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/MotionBlur.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/NoiseAndGrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/NoiseAndGrain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/NoiseAndScratches.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/NoiseAndScratches.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/PostEffectsBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/PostEffectsBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/PostEffectsHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/PostEffectsHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Quads.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Quads.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ScreenOverlay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ScreenOverlay.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ScreenSpaceAmbientObscurance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ScreenSpaceAmbientObscurance.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ScreenSpaceAmbientOcclusion.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/ScreenSpaceAmbientOcclusion.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/SepiaTone.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/SepiaTone.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/SunShafts.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/SunShafts.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/TiltShift.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/TiltShift.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Tonemapping.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Tonemapping.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Triangles.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Triangles.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Twirl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Twirl.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/VignetteAndChromaticAberration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/VignetteAndChromaticAberration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Vortex.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Scripts/Vortex.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Shaders/ScreenSpaceRaytrace.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Shaders/ScreenSpaceRaytrace.cginc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Shaders/frag_ao.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ImageEffects/Shaders/frag_ao.cginc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/LensAberrations/Editor/LensAberrationsEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/LensAberrations/Editor/LensAberrationsEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/LensAberrations/LensAberrations.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/LensAberrations/LensAberrations.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ScreenSpaceReflection/Editor/ScreenSpaceReflectionEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ScreenSpaceReflection/Editor/ScreenSpaceReflectionEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ScreenSpaceReflection/Resources/ScreenSpaceRaytrace.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ScreenSpaceReflection/Resources/ScreenSpaceRaytrace.cginc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ScreenSpaceReflection/ScreenSpaceReflection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/ScreenSpaceReflection/ScreenSpaceReflection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/TonemappingColorGrading/Editor/TonemappingColorGradingEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/TonemappingColorGrading/Editor/TonemappingColorGradingEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/TonemappingColorGrading/Resources/HistogramCompute.compute" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/TonemappingColorGrading/Resources/HistogramCompute.compute" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/TonemappingColorGrading/Resources/TonemappingColorGrading.cginc" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/TonemappingColorGrading/Resources/TonemappingColorGrading.cginc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/TonemappingColorGrading/TonemappingColorGrading.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/prefabs/Furniture 1/Standard Assets/Effects/TonemappingColorGrading/TonemappingColorGrading.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,35 +154,38 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 3
-}]]></component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2fAElZqkCDwYvMqq0ZejJU4Zasi" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\amaze\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\amaze\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\amaze\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\amaze\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\amaze\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\amaze\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2021.3.24f1\Editor\Unity.exe" />
@@ -88,7 +232,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713235635121</updated>
-      <workItem from="1713235638842" duration="990000" />
+      <workItem from="1713235638842" duration="1343000" />
+      <workItem from="1713367596974" duration="767000" />
     </task>
     <servers />
   </component>

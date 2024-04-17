@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 namespace UnityStandardAssets.CinematicEffects
 {
@@ -9,18 +9,11 @@ namespace UnityStandardAssets.CinematicEffects
     [CustomEditor(typeof(Bloom))]
     public class BloomEditor : Editor
     {
-        [NonSerialized]
-        private List<SerializedProperty> m_Properties = new List<SerializedProperty>();
+        private BloomGraphDrawer _graph;
 
-        BloomGraphDrawer _graph;
+        [NonSerialized] private readonly List<SerializedProperty> m_Properties = new();
 
-        bool CheckHdr(Bloom target)
-        {
-            var camera = target.GetComponent<Camera>();
-            return camera != null && camera.allowHDR;
-        }
-
-        void OnEnable()
+        private void OnEnable()
         {
             var settings = FieldFinder<Bloom>.GetField(x => x.settings);
             foreach (var setting in settings.FieldType.GetFields())
@@ -30,6 +23,12 @@ namespace UnityStandardAssets.CinematicEffects
             }
 
             _graph = new BloomGraphDrawer();
+        }
+
+        private bool CheckHdr(Bloom target)
+        {
+            var camera = target.GetComponent<Camera>();
+            return camera != null && camera.allowHDR;
         }
 
         public override void OnInspectorGUI()

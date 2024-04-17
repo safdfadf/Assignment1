@@ -1,23 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CollectableFinder : MonoBehaviour
 {
-    public Text distanceText; 
+    public Text distanceText;
 
-    void Update()
+    private void Update()
     {
         // Find all game objects tagged as "Collectable"
-        GameObject[] collectables = GameObject.FindGameObjectsWithTag("Collectable");
-        float nearestDistance = Mathf.Infinity;
+        var collectables = GameObject.FindGameObjectsWithTag("Collectable");
+        var nearestDistance = Mathf.Infinity;
         GameObject nearestCollectable = null;
 
         // To iterate through all collectables to find the nearest one
-        foreach (GameObject collectable in collectables)
+        foreach (var collectable in collectables)
         {
-            float distance = Vector3.Distance(transform.position, collectable.transform.position);
+            var distance = Vector3.Distance(transform.position, collectable.transform.position);
             if (distance < nearestDistance)
             {
                 nearestDistance = distance;
@@ -27,13 +25,9 @@ public class CollectableFinder : MonoBehaviour
 
         //  To update the UI text based on whether a nearest collectable exists
         if (nearestCollectable != null && distanceText != null)
-        {
             distanceText.text = "Nearest Collectable: " + nearestDistance.ToString("F2") + " meters away";
-        }
         else if (distanceText != null)
-        {
             // Change the text if no collectables are found
             distanceText.text = "No more collectables";
-        }
     }
 }

@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private bool Gamehasended = false;  // Flag to prevent multiple game overs
-    public GameObject LevelCompleteUI;  // UI panel for level completion
-    public GameObject GameOverUI;       // UI panel for game over
-    public GameObject player;           // Reference to the player GameObject
-    public GameObject ghost;            // Reference to the ghost GameObject
+    public GameObject LevelCompleteUI; // UI panel for level completion
+    public GameObject GameOverUI; // UI panel for game over
+    public GameObject player; // Reference to the player GameObject
+    public GameObject ghost; // Reference to the ghost GameObject
+    private bool Gamehasended; // Flag to prevent multiple game overs
 
     // Trigger level completion UI
     public void LevelWon()
@@ -24,13 +22,13 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("GameOver");
             Gamehasended = true;
-            StopCharacters();  // Freeze player and ghost movements
-            Invoke("CallGameOverUi", 3);  // Show game over UI after a delay
+            StopCharacters(); // Freeze player and ghost movements
+            Invoke("CallGameOverUi", 3); // Show game over UI after a delay
         }
     }
 
     // Activate game over UI
-    void CallGameOverUi()
+    private void CallGameOverUi()
     {
         GameOverUI.SetActive(true);
     }
@@ -44,29 +42,22 @@ public class GameManager : MonoBehaviour
     // Freeze both player and ghost movements
     private void StopCharacters()
     {
-        FreezeMovement(player);  // Freeze player
-        FreezeMovement(ghost);   // Freeze ghost
+        FreezeMovement(player); // Freeze player
+        FreezeMovement(ghost); // Freeze ghost
         Debug.Log("All characters are now frozen.");
     }
 
     // Disable movement scripts and freeze Rigidbody
     private void DisableMovementScripts(GameObject character)
     {
-        MonoBehaviour[] scripts = character.GetComponents<MonoBehaviour>();
+        var scripts = character.GetComponents<MonoBehaviour>();
         foreach (var script in scripts)
-        {
-            if (script is Player_Controller || script is GhostAI)  // Target movement scripts specifically
-            {
+            if (script is PlayerController || script is GhostAI) // Target movement scripts specifically
                 script.enabled = false;
-            }
-        }
 
         // Optionally disable animations
-        Animator anim = character.GetComponent<Animator>();
-        if (anim != null)
-        {
-            anim.enabled = false;
-        }
+        var anim = character.GetComponent<Animator>();
+        if (anim != null) anim.enabled = false;
     }
 
     // Helper method to freeze Rigidbody components
@@ -74,11 +65,8 @@ public class GameManager : MonoBehaviour
     {
         if (character != null)
         {
-            Rigidbody rb = character.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.constraints = RigidbodyConstraints.FreezeAll;
-            }
+            var rb = character.GetComponent<Rigidbody>();
+            if (rb != null) rb.constraints = RigidbodyConstraints.FreezeAll;
             DisableMovementScripts(character);
         }
     }

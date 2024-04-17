@@ -9,10 +9,7 @@ namespace UnityStandardAssets.CinematicEffects
         public static FieldInfo GetField<TValue>(Expression<Func<T, TValue>> selector)
         {
             Expression body = selector;
-            if (body is LambdaExpression)
-            {
-                body = ((LambdaExpression)body).Body;
-            }
+            if (body is LambdaExpression) body = ((LambdaExpression)body).Body;
             switch (body.NodeType)
             {
                 case ExpressionType.MemberAccess:

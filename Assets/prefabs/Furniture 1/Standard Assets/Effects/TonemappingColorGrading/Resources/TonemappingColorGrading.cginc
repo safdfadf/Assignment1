@@ -35,10 +35,10 @@ inline half PerceptualToLin(half f)
 half4 frag_log(v2f_img i) : SV_Target
 {
     half sum = 0.0;
-    sum += LinToPerceptual(tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2(-1,-1)).rgb);
-    sum += LinToPerceptual(tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2( 1, 1)).rgb);
+    sum += LinToPerceptual(tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2(-1, -1)).rgb);
+    sum += LinToPerceptual(tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2(1, 1)).rgb);
     sum += LinToPerceptual(tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2(-1, 1)).rgb);
-    sum += LinToPerceptual(tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2( 1,-1)).rgb);
+    sum += LinToPerceptual(tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2(1, -1)).rgb);
     half avg = sum / 4.0;
     return half4(avg, avg, avg, avg);
 }
@@ -46,9 +46,9 @@ half4 frag_log(v2f_img i) : SV_Target
 half4 frag_exp(v2f_img i) : SV_Target
 {
     half sum = 0.0;
-    sum += tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2(-1,-1)).x;
-    sum += tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2( 1, 1)).x;
-    sum += tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2( 1,-1)).x;
+    sum += tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2(-1, -1)).x;
+    sum += tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2(1, 1)).x;
+    sum += tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2(1, -1)).x;
     sum += tex2D(_MainTex, i.uv + _MainTex_TexelSize.xy * half2(-1, 1)).x;
     half avg = PerceptualToLin(sum / 4.0);
     return half4(avg, avg, avg, saturate(0.0125 * _AdaptationSpeed));
@@ -73,7 +73,9 @@ half3 ToCIE(half3 color)
     // 0.4125 0.3576 0.1805
     // 0.2126 0.7152 0.0722
     // 0.0193 0.1192 0.9505
-    half3x3 RGB2XYZ = { 0.5141364, 0.3238786, 0.16036376, 0.265068, 0.67023428, 0.06409157, 0.0241188, 0.1228178, 0.84442666 };
+    half3x3 RGB2XYZ = {
+        0.5141364, 0.3238786, 0.16036376, 0.265068, 0.67023428, 0.06409157, 0.0241188, 0.1228178, 0.84442666
+    };
     half3 XYZ = mul(RGB2XYZ, color.rgb);
 
     // XYZ -> Yxy conversion
@@ -99,7 +101,7 @@ half3 FromCIE(half3 Yxy)
     //  3.2410 -1.5374 -0.4986
     // -0.9692  1.8760  0.0416
     //  0.0556 -0.2040  1.0570
-    half3x3 XYZ2RGB = { 2.5651, -1.1665, -0.3986, -1.0217, 1.9777, 0.0439, 0.0753, -0.2543, 1.1892 };
+    half3x3 XYZ2RGB = {2.5651, -1.1665, -0.3986, -1.0217, 1.9777, 0.0439, 0.0753, -0.2543, 1.1892};
     return mul(XYZ2RGB, XYZ);
 }
 
@@ -202,50 +204,50 @@ half4 frag_tcg(v2f_img i) : SV_Target
 {
     half4 color = tex2D(_MainTex, i.uv);
 
-#if UNITY_COLORSPACE_GAMMA
+    #if UNITY_COLORSPACE_GAMMA
     color.rgb = GammaToLinearSpace(color.rgb);
-#endif
+    #endif
 
-#if ENABLE_EYE_ADAPTATION
+    #if ENABLE_EYE_ADAPTATION
     // Fast eye adaptation
     half avg_luminance = tex2D(_LumTex, i.uv).x;
     half linear_exposure = _MiddleGrey / avg_luminance;
     color.rgb *= max(_AdaptationMin, min(_AdaptationMax, linear_exposure));
-#endif
+    #endif
 
-#if defined(TONEMAPPING_ACES)
+    #if defined(TONEMAPPING_ACES)
     color.rgb = tonemapACES(color.rgb);
-#elif defined(TONEMAPPING_CURVE)
+    #elif defined(TONEMAPPING_CURVE)
     color.rgb = tonemapCurve(color.rgb);
-#elif defined(TONEMAPPING_HABLE)
+    #elif defined(TONEMAPPING_HABLE)
     color.rgb = tonemapHable(color.rgb);
-#elif defined(TONEMAPPING_HEJL_DAWSON)
+    #elif defined(TONEMAPPING_HEJL_DAWSON)
     color.rgb = tonemapHejlDawson(color.rgb);
-#elif defined(TONEMAPPING_PHOTOGRAPHIC)
+    #elif defined(TONEMAPPING_PHOTOGRAPHIC)
     color.rgb = tonemapPhotographic(color.rgb);
-#elif defined(TONEMAPPING_REINHARD)
+    #elif defined(TONEMAPPING_REINHARD)
     color.rgb = tonemapReinhard(color.rgb);
-#elif defined(TONEMAPPING_NEUTRAL)
+    #elif defined(TONEMAPPING_NEUTRAL)
     color.rgb = tonemapNeutral(color.rgb);
-#endif
+    #endif
 
-#if ENABLE_COLOR_GRADING
+    #if ENABLE_COLOR_GRADING
     // LUT color grading
     color.rgb = apply_lut(_InternalLutTex, saturate(color.rgb), _InternalLutParams);
-#endif
+    #endif
 
-#if ENABLE_DITHERING
+    #if ENABLE_DITHERING
     // Interleaved Gradient Noise from http://www.iryoku.com/next-generation-post-processing-in-call-of-duty-advanced-warfare (slide 122)
     half3 magic = float3(0.06711056, 0.00583715, 52.9829189);
     half gradient = frac(magic.z * frac(dot(i.uv / _MainTex_TexelSize, magic.xy))) / 255.0;
     color.rgb -= gradient.xxx;
-#endif
+    #endif
 
-#if UNITY_COLORSPACE_GAMMA
+    #if UNITY_COLORSPACE_GAMMA
     color.rgb = LinearToGammaSpace(color.rgb);
-#endif
+    #endif
 
-#if ENABLE_USER_LUT
+    #if ENABLE_USER_LUT
     #if !UNITY_COLORSPACE_GAMMA
         half3 lc = apply_lut(_UserLutTex, saturate(LinearToGammaSpace(color.rgb)), _UserLutParams.xyz);
         lc = GammaToLinearSpace(lc);
@@ -254,7 +256,7 @@ half4 frag_tcg(v2f_img i) : SV_Target
     #endif
 
     color.rgb = lerp(color.rgb, lc, _UserLutParams.w);
-#endif
+    #endif
 
     return color;
 }

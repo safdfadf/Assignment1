@@ -3,27 +3,23 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenuUI; 
+    public GameObject pauseMenuUI;
 
-    private bool isPaused = false;
+    private bool isPaused;
 
-    void Start()
+    private void Start()
     {
         pauseMenuUI.SetActive(false); // Ensure the pause menu is hidden at the start
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
-            {
                 Resume();
-            }
             else
-            {
                 Pause();
-            }
         }
     }
 
@@ -43,7 +39,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Restart()
     {
-        Time.timeScale = 1f; 
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -6,9 +6,10 @@ namespace UnityStandardAssets.CinematicEffects
     public class RenderTextureUtility
     {
         //Temporary render texture handling
-        private List<RenderTexture> m_TemporaryRTs = new List<RenderTexture>();
+        private readonly List<RenderTexture> m_TemporaryRTs = new();
 
-        public RenderTexture GetTemporaryRenderTexture(int width, int height, int depthBuffer = 0, RenderTextureFormat format = RenderTextureFormat.ARGBHalf, FilterMode filterMode = FilterMode.Bilinear)
+        public RenderTexture GetTemporaryRenderTexture(int width, int height, int depthBuffer = 0,
+            RenderTextureFormat format = RenderTextureFormat.ARGBHalf, FilterMode filterMode = FilterMode.Bilinear)
         {
             var rt = RenderTexture.GetTemporary(width, height, depthBuffer, format);
             rt.filterMode = filterMode;
@@ -35,7 +36,7 @@ namespace UnityStandardAssets.CinematicEffects
 
         public void ReleaseAllTemporaryRenderTextures()
         {
-            for (int i = 0; i < m_TemporaryRTs.Count; ++i)
+            for (var i = 0; i < m_TemporaryRTs.Count; ++i)
                 RenderTexture.ReleaseTemporary(m_TemporaryRTs[i]);
 
             m_TemporaryRTs.Clear();
