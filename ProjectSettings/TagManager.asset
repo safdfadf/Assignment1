@@ -8,6 +8,7 @@ TagManager:
   - Collectable
   - Switch
   - Ghost
+  - Climable
   layers:
   - Default
   - TransparentFX
