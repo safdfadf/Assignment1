@@ -14,6 +14,6 @@ public class Ui : MonoBehaviour
 
     public void UpdateGear(Player_Inventory inventory)
     {
-        diamondText.text = inventory.numberofGears.ToString();
+        diamondText.text ="Gears: "+ inventory.numberofGears.ToString();
     }
 }
