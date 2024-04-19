@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro; // Import the TextMeshPro namespace
 
 public class CollectableFinder : MonoBehaviour
 {
-    public Text distanceText; 
+    public TextMeshProUGUI distanceText;  // Change the type from Text to TextMeshProUGUI
 
     void Update()
     {
