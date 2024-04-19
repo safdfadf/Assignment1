@@ -21,6 +21,7 @@ public class Player_Controller : MonoBehaviour
     public bool isSprinting = false;
     private bool isclimbing = false;
     [SerializeField] private float climbspeed = 2f;// speed while climbing
+    bool isonFurniture;
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +50,7 @@ public class Player_Controller : MonoBehaviour
         float movementAmount = Mathf.Clamp01(Mathf.Abs(HorizontalInput) + Mathf.Abs(VerticalInput));
         movement = new Vector3(HorizontalInput, 0, VerticalInput).normalized;
 
-        if (movementAmount > 0 && moving)
+        if (movementAmount > 0 && moving || isonFurniture)
         {
             UpdatePlayerVelocity();
             UpdatePlayerRotation();
@@ -81,8 +82,9 @@ public class Player_Controller : MonoBehaviour
 
     void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isonground) // checks player Input for jump
+        if (Input.GetKeyDown(KeyCode.Space) && (isonground || isonFurniture)) // checks player Input for jump
         {
+            
             Jump();
         }
 
@@ -96,6 +98,7 @@ public class Player_Controller : MonoBehaviour
     {
         playerRb.AddForce(Vector3.up * jumpspeed, ForceMode.Impulse);
         isonground = false;
+        isonFurniture = false;
         Anim.SetBool("IsJumping", true);
     }
 
@@ -156,9 +159,19 @@ public class Player_Controller : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground")) // checks if the player is on ground
         {
             isonground = true;
+            isonFurniture = false;//Ensures that player is on the ground and not on furniture
             moving = true;
             Anim.SetBool("IsJumping", false);
         }
+        else if(collision.gameObject.CompareTag("Furniture"))
+        {
+            isonground = false;
+            isonFurniture = true;
+            moving = false;
+            Anim.SetBool("IsJumping", false);
+        }
     }
-
+    
+       
+    
 }
