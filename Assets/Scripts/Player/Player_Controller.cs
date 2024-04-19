@@ -5,32 +5,29 @@ using UnityEngine;
 
 public class Player_Controller : MonoBehaviour
 {
-    [SerializeField]
-    private float speed;
-    [SerializeField]
-    private float HorizontalInput;
-    [SerializeField] 
-    private float VerticalInput;
+    [SerializeField] private float speed;
+    [SerializeField] private float HorizontalInput;
+    [SerializeField] private float VerticalInput;
     private Rigidbody playerRb;
     private float rotationspeed = 5f;
     Vector3 movement;
     private bool Isonground;
     private Animator Anim;
-    [SerializeField]
-    private float jumpspeed = 2f;
+    [SerializeField] private float jumpspeed = 2f;
     private bool isonground;
-    private bool moving= true;
+    private bool moving = true;
     private float currentspeed;
-    [SerializeField]
-    private float speedmultiplier;
+    [SerializeField] private float speedmultiplier;
     public bool isSprinting = false;
-    
+    private bool isclimbing = false;
+    [SerializeField] private float climbspeed = 2f;// speed while climbing
+
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         Anim = GetComponent<Animator>();
-        
+
     }
 
     // Update is called once per frame
@@ -39,10 +36,13 @@ public class Player_Controller : MonoBehaviour
         HandleMovement();
         HandleJump();
         HandleSprint();
+
     }
 
     void HandleMovement()
     {// Player Input
+
+
         HorizontalInput = Input.GetAxis("Horizontal");
         VerticalInput = Input.GetAxis("Vertical");
 
@@ -56,6 +56,7 @@ public class Player_Controller : MonoBehaviour
         }
 
         Anim.SetFloat("movementValue", movementAmount, 0.1f, Time.deltaTime);
+
     }
 
     void UpdatePlayerVelocity()// Player Movement
@@ -68,7 +69,7 @@ public class Player_Controller : MonoBehaviour
         {
             currentspeed = speed;
         }
-       
+
         playerRb.velocity = movement * currentspeed;
     }
 
@@ -100,7 +101,7 @@ public class Player_Controller : MonoBehaviour
 
     void HandleSprint()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && isonground)// checks player Input for sprint
+        if (Input.GetKeyDown(KeyCode.LeftShift))// checks player Input for sprint
         {
             StartSprinting();
         }
@@ -122,6 +123,34 @@ public class Player_Controller : MonoBehaviour
         isSprinting = false;
         Anim.SetBool("IsSprinting", false);
     }
+    /*void HandleClimb()
+    {
+        if (isclimbing)
+        {
+            float climbInput = Input.GetKeyDown(KeyCode.Space) ? 1f : 0f;//Check if climb button is pressed
+            Vector3 climbVelocity = Vector3.up * climbInput * climbspeed;
+            playerRb.velocity = new Vector3(playerRb.velocity.x, climbVelocity.y, playerRb.velocity.z);
+        }
+    }*/
+    /*  private void OnTriggerEnter(Collider other)
+      {
+          if (other.CompareTag("Climbable"))
+          {
+              Debug.Log("Enter");
+              isclimbing = true;
+              playerRb.useGravity = false;
+          }
+      }*/
+    /*private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Climbable"))
+        {
+            Debug.Log("Exit"); 
+            isclimbing = false;
+            playerRb.useGravity = true;
+        }
+    }*/
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground")) // checks if the player is on ground
@@ -131,6 +160,5 @@ public class Player_Controller : MonoBehaviour
             Anim.SetBool("IsJumping", false);
         }
     }
-   
+
 }
-    
