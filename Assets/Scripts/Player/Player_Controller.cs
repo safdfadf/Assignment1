@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -23,10 +24,10 @@ public class Player_Controller : MonoBehaviour
     bool isonFurniture;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask FurnitureLayer;
-    
+    [SerializeField] private Transform groundCheckLocation;
 
-    [SerializeField] private float checkRadius = 0.5f;
-
+    [SerializeField] private float checkRadius = 0.1f;
+    private bool disableGroundCheck = false;
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
@@ -102,9 +103,17 @@ public class Player_Controller : MonoBehaviour
     }
     void Jump()// Adds Jump force
     {
+        
         playerRb.AddForce(Vector3.up * jumpspeed, ForceMode.Impulse);
         isonground = false;
         isonFurniture = false;
+        disableGroundCheck = true;
+        Invoke("EnableGroundCheck", .1f);
+    }
+
+    void EnableGroundCheck()
+    {
+        disableGroundCheck = false;
     }
 
     void HandleSprint()
@@ -133,7 +142,8 @@ public class Player_Controller : MonoBehaviour
     }
     void HandleGroundAndFurniture()
     { // Ground detection
-        if (Physics.CheckSphere(transform.position, checkRadius, groundLayer))
+        if (disableGroundCheck) return;
+        if (Physics.CheckSphere(groundCheckLocation.position, checkRadius, groundLayer))
         {
             Debug.Log("OnGround");
             isonground = true;
@@ -146,7 +156,7 @@ public class Player_Controller : MonoBehaviour
         }
 
         // Furniture detection
-        if (Physics.CheckSphere(transform.position, checkRadius, FurnitureLayer))
+        if (Physics.CheckSphere(groundCheckLocation.position, checkRadius, FurnitureLayer))
         {
             Debug.Log("OnFurniture");
             isonFurniture = true;

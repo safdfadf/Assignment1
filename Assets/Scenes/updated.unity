@@ -2113,6 +2113,37 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7839959533898661788, guid: 3bb9465ff7657af4fb7c82a095c7ac55, type: 3}
   m_PrefabInstance: {fileID: 7839959531961816462}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1970986303
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1970986304}
+  m_Layer: 0
+  m_Name: groundCheckLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1970986304
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970986303}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.051, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1754288210}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2019191772
 GameObject:
   m_ObjectHideFlags: 0
@@ -3084,6 +3115,10 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3798097687348426546, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
+      propertyPath: groundCheckLocation
+      value: 
+      objectReference: {fileID: 1970986304}
+    - target: {fileID: 3798097687348426546, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
       propertyPath: FurnitureLayer.m_Bits
       value: 128
       objectReference: {fileID: 0}
@@ -3471,6 +3506,10 @@ PrefabInstance:
     - target: {fileID: 7673880605350909319, guid: b06a9eea111590644b67a223207393c1, type: 3}
       propertyPath: m_Name
       value: Ghosts
+      objectReference: {fileID: 0}
+    - target: {fileID: 7673880605350909319, guid: b06a9eea111590644b67a223207393c1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7673880605350909322, guid: b06a9eea111590644b67a223207393c1, type: 3}
       propertyPath: player
