@@ -2613,9 +2613,9 @@ GameObject:
   - component: {fileID: 3469287837207056028}
   - component: {fileID: 1711813855360825942}
   - component: {fileID: 2043135004}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Room1
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2876,8 +2876,12 @@ PrefabInstance:
       value: 4.615
       objectReference: {fileID: 0}
     - target: {fileID: 3749272711859418187, guid: d72c31d3bae69ea469b4d8e73e83dc44, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749272711859418187, guid: d72c31d3bae69ea469b4d8e73e83dc44, type: 3}
       propertyPath: m_TagString
-      value: Climable
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 3749272711859644523, guid: d72c31d3bae69ea469b4d8e73e83dc44, type: 3}
       propertyPath: m_LocalScale.y
@@ -3068,8 +3072,20 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3798097687348426546, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
+      propertyPath: checkRadius
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798097687348426546, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
       propertyPath: isSprinting
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798097687348426546, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798097687348426546, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
+      propertyPath: FurnitureLayer.m_Bits
+      value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 3798097687348426549, guid: 5e86365f8d9c5a24e9f447e29ea61d08, type: 3}
       propertyPath: m_Size.x
