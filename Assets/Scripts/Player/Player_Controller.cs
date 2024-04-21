@@ -43,10 +43,14 @@ public class Player_Controller : MonoBehaviour
         HandleSprint();
         HandleGroundAndFurniture();
         // Visualize SphereCast for debugging
-     }
+
+
+    }
 
     void HandleMovement()
     {// Player Input
+
+
         HorizontalInput = Input.GetAxis("Horizontal");
         VerticalInput = Input.GetAxis("Vertical");
 
@@ -92,6 +96,7 @@ public class Player_Controller : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && (isonground || isonFurniture)) // checks player Input for jump
         {
+
             Jump();
             animator.SetBool("IsJumping", true);
         }
@@ -102,7 +107,7 @@ public class Player_Controller : MonoBehaviour
         isonground = false;
         isonFurniture = false;
         DisableGroundCheck = true;
-        Invoke("EnableGroundCheck",.1f);
+        Invoke("EnableGroundCheck", .1f);
     }
 
     void EnableGroundCheck()
@@ -114,13 +119,11 @@ public class Player_Controller : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))// checks player Input for sprint
         {
-            Debug.Log("Player is Sprinting");
             StartSprinting();
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            Debug.Log("Stop_Sprinting");
             StopSprinting();
         }
     }
