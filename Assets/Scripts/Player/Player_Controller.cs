@@ -76,7 +76,7 @@ public class Player_Controller : MonoBehaviour
 
     void UpdatePlayerRotation()// Player Rotation
     {
-        Quaternion targetRotation = Quaternion.LookRotation(-movement);
+        Quaternion targetRotation = Quaternion.LookRotation(movement);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationspeed * Time.deltaTime);
     }
 

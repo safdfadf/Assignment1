@@ -14,7 +14,7 @@ public class Player_Inventory : MonoBehaviour
     int gearsNeeded = 4;
     public Light[] lightTurnOn;
     public bool hasReachedSwitch = false;
-    [SerializeField] float timeLimit = 5f;
+    [SerializeField] float timeLimit = 60f;
     public float timer;
     private Animator Anim;
 
