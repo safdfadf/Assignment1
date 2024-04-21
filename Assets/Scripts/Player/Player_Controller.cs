@@ -23,9 +23,10 @@ public class Player_Controller : MonoBehaviour
     bool isonFurniture;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask FurnitureLayer;
-    
+    [SerializeField] private Transform GroundCheckLocation;
+    private bool DisableGroundCheck = false;
+    [SerializeField] private float checkRadius = 0.1f;
 
-    [SerializeField] private float checkRadius = 0.5f;
 
     void Start()
     {
@@ -105,6 +106,13 @@ public class Player_Controller : MonoBehaviour
         playerRb.AddForce(Vector3.up * jumpspeed, ForceMode.Impulse);
         isonground = false;
         isonFurniture = false;
+        DisableGroundCheck = true;
+        Invoke("EnableGroundCheck", .1f);
+    }
+
+    void EnableGroundCheck()
+    {
+        DisableGroundCheck = false;
     }
 
     void HandleSprint()
@@ -133,7 +141,8 @@ public class Player_Controller : MonoBehaviour
     }
     void HandleGroundAndFurniture()
     { // Ground detection
-        if (Physics.CheckSphere(transform.position, checkRadius, groundLayer))
+        if (DisableGroundCheck) return;
+        if (Physics.CheckSphere(GroundCheckLocation.position, checkRadius, groundLayer))
         {
             Debug.Log("OnGround");
             isonground = true;
@@ -146,7 +155,7 @@ public class Player_Controller : MonoBehaviour
         }
 
         // Furniture detection
-        if (Physics.CheckSphere(transform.position, checkRadius, FurnitureLayer))
+        if (Physics.CheckSphere(GroundCheckLocation.position, checkRadius, FurnitureLayer))
         {
             Debug.Log("OnFurniture");
             isonFurniture = true;
