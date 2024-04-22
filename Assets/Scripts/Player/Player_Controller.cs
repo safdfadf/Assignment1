@@ -36,6 +36,7 @@ public class Player_Controller : MonoBehaviour
         stamina_System = GetComponent<Stamina_System>();
         playerRb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        isSprinting = false;
 
     }
 
