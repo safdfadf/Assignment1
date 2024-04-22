@@ -9,7 +9,7 @@ public class Collectable : MonoBehaviour
     private Collider collectableCollider;
     private Renderer collectableRenderer;
 
-    public float respawnDelay = 5.0f;  // Time before starting the respawn process
+    public float respawnDelay = 40;  // Time before starting the respawn process
     public float reappearanceDuration = 5.0f;  // Duration for the collectable to fully reappear
 
     void Awake()
