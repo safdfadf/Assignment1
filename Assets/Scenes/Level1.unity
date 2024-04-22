@@ -890,6 +890,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chair_leather
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 0e46f34ef0fc1aa44b9534e5d1e7de0e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0e46f34ef0fc1aa44b9534e5d1e7de0e, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -2742,8 +2746,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.6853363, y: 1.1785132, z: 0.72462195}
-  m_Center: {x: -1.0414071e-15, y: 0.58626, z: -0.008410946}
+  m_Size: {x: 0.40803325, y: 0.52276105, z: 0.72462195}
+  m_Center: {x: 0.000618958, y: 0.25838384, z: -0.008410948}
 --- !u!1001 &1240920190
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4360,6 +4364,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 150840684}
     m_Modifications:
+    - target: {fileID: 1267420293667612771, guid: 4d702db00ee74ef4a9ef7ca5fbda23b9, type: 3}
+      propertyPath: respawnDelay
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 1267420293667612772, guid: 4d702db00ee74ef4a9ef7ca5fbda23b9, type: 3}
       propertyPath: m_Name
       value: Collectable
