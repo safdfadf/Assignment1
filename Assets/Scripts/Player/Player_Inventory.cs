@@ -5,14 +5,14 @@ using UnityEngine.Events;
 
 public class Player_Inventory : MonoBehaviour
 {
-    public int numberofGears { get; private set; }
+    public int numberofGears { get; private set; }  // Number of gears currently held by the player
     private GameManager gameManager;
     public UnityEvent<Player_Inventory> OnGearCollected;
-    public UnityEvent OnLeverActivated;  // Event for activating a lever
-    [SerializeField] int gearsNeeded = 5;  // Set this to 5 as required for each lever
-    public Light[] lightTurnOn;            // Lights to turn on when switches are activated
+    public UnityEvent OnLeverActivated;  // Event triggered when a lever is activated
+    [SerializeField] int gearsNeeded = 5;  // Gears required to activate a lever or switch
+    public Light[] lightTurnOn;            // Array of lights that can be turned on
     public bool hasReachedSwitch = false;
-    [SerializeField] float timeLimit = 60f;
+    [SerializeField] float timeLimit = 60f; // Time limit to reach a switch
     public float timer;
     private Animator Anim;
 
@@ -21,9 +21,6 @@ public class Player_Inventory : MonoBehaviour
         timer = timeLimit;
         gameManager = FindObjectOfType<GameManager>();
         Anim = GetComponent<Animator>();
-        Collectable[] collectables = FindObjectsOfType<Collectable>();
-        // Optionally adjust gearsNeeded based on the number of collectables if needed
-        // gearsNeeded = collectables.Length;
     }
 
     void Update()
@@ -33,19 +30,16 @@ public class Player_Inventory : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
-                Anim.SetBool("GameOver", true);
-                gameManager.GameOver();
+                GameOver();
             }
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Check if the collision is with a switch and if gears are sufficient
         if (collision.gameObject.CompareTag("Switch") && numberofGears >= gearsNeeded)
         {
             ActivateSwitch();
-            numberofGears -= gearsNeeded;  // Consume gears when a switch is activated
         }
     }
 
@@ -53,31 +47,25 @@ public class Player_Inventory : MonoBehaviour
     {
         if (numberofGears >= gearsNeeded)
         {
-            numberofGears -= gearsNeeded;  // Use up the gears
-            OnLeverActivated.Invoke();  // Trigger the lever activation event
-            ActivateSwitch();  // Use the same logic for levers as for switches
+            UseGears(gearsNeeded);  // Deduct the necessary number of gears
+            OnLeverActivated.Invoke();  // Signal that the lever has been activated
+            ActivateSwitch();  // Additional functionality tied to switch activation
         }
         else
         {
-            Debug.Log("Not enough gears collected to activate the lever");
+            Debug.Log("Not enough gears collected to activate the lever.");
         }
     }
 
-    void ActivateSwitch()
+    public void ActivateSwitch()
     {
-        Debug.Log("Switch activated, lights on or level won");
         foreach (Light light in lightTurnOn)
         {
-            light.enabled = true;
+            light.enabled = true;  // Turn each light on
         }
         Anim.SetBool("Victory", true);
-        PlayWinMusic();  // Play win music
-        Invoke("CompleteLevel", 5);  // Delay the level completion to allow win animation/music
-    }
-
-    void CompleteLevel()
-    {
-        gameManager.LevelWon();
+        PlayWinMusic();
+        Invoke("CompleteLevel", 5);  // Allow some time for animations and music to play
     }
 
     public void GearsCollected()
@@ -86,9 +74,26 @@ public class Player_Inventory : MonoBehaviour
         OnGearCollected.Invoke(this);
     }
 
+    public void UseGears(int amount)
+    {
+        numberofGears -= amount;
+        if (numberofGears < 0)
+            numberofGears = 0;  // Prevent gears from going negative
+    }
+
+    private void GameOver()
+    {
+        Anim.SetBool("GameOver", true);
+        gameManager.GameOver();
+    }
+
     private void PlayWinMusic()
     {
-        // Assuming there's a sound manager to handle music
-        SoundManager.Instance.PlayWinMusic();
+        SoundManager.Instance.PlayWinMusic();  // Play victory music
+    }
+
+    private void CompleteLevel()
+    {
+        gameManager.LevelWon();  // Notify the game manager that the level has been completed
     }
 }

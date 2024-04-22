@@ -14,23 +14,29 @@ public class Player_Controller : MonoBehaviour
     private Animator animator;
     [SerializeField] private float jumpspeed = 2f;
     private bool isonground;
-    private bool moving = true;
+    public bool moving = false;
     private float currentspeed;
     [SerializeField] private float speedmultiplier;
     public bool isSprinting = false;
+    private bool isclimbing = false;
+    [SerializeField] private float climbspeed = 2f;// speed while climbing
     bool isonFurniture;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask FurnitureLayer;
     [SerializeField] private Transform GroundCheckLocation;
     private bool DisableGroundCheck = false;
     [SerializeField] private float checkRadius = 0.1f;
+    public Stamina_System stamina_System;
+    private Vector3 initialPosition;
+    private Vector3 finalPosition;
 
 
     void Start()
     {
+        stamina_System = GetComponent<Stamina_System>();
         playerRb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        isSprinting = false;
+
     }
 
     // Update is called once per frame
@@ -72,9 +78,16 @@ public class Player_Controller : MonoBehaviour
 
     void UpdatePlayerVelocity()// Player Movement
     {
-        if (isSprinting)
+        if (stamina_System.Stamina > 0 && isSprinting)
         {
-            currentspeed = speed * speedmultiplier;
+            float distance = Vector3.Distance(transform.position, finalPosition);
+            if (distance > 0.5f)
+            {
+                stamina_System.Sprint();
+                currentspeed = speed * speedmultiplier;
+                animator.SetBool("IsSprinting", true);
+            }
+
         }
         else
         {
@@ -86,7 +99,7 @@ public class Player_Controller : MonoBehaviour
 
     void UpdatePlayerRotation()// Player Rotation
     {
-        Quaternion targetRotation = Quaternion.LookRotation(-movement);
+        Quaternion targetRotation = Quaternion.LookRotation(movement);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationspeed * Time.deltaTime);
     }
 
@@ -117,7 +130,9 @@ public class Player_Controller : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))// checks player Input for sprint
         {
+            initialPosition = transform.position;
             StartSprinting();
+
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
@@ -129,7 +144,7 @@ public class Player_Controller : MonoBehaviour
     void StartSprinting()
     {
         isSprinting = true;
-        animator.SetBool("IsSprinting", true);
+
     }
 
     void StopSprinting()
