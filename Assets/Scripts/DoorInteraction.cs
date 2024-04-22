@@ -1,40 +1,48 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;  // Make sure this namespace is included if you're using SceneManager
 using System.Collections;
 
 public class DoorInteraction : MonoBehaviour
 {
     public LeverTrigger[] levers;  // Array of all levers that control the door
-    public Text interactionText;
-    private bool playerIsNear = false;
+    public Text interactionText;   // UI Text for displaying messages
+    private bool playerIsNear = false;  // Tracks proximity of the player
+    private bool doorIsOpen = false;    // Tracks if the door is open
 
     void Update()
     {
+        // Check player interaction
         if (playerIsNear && Input.GetKeyDown(KeyCode.E))
         {
             if (AreAllLeversFlipped())
             {
-                // Code to open the door
-                StartCoroutine(UpdateTextNextFrame());
+                doorIsOpen = !doorIsOpen;  // Toggle the door state
+                if (doorIsOpen)
+                {
+                    // Call level completion logic when the door opens
+                    CompleteLevel();
+                }
+                StartCoroutine(UpdateTextNextFrame());  // Update UI text after a frame
             }
             else
             {
-                interactionText.text = "You need to flip all levers to open the doors";  // Show message if not all levers are flipped
+                interactionText.text = "You need to flip all levers to open the doors";  // Notify player
             }
         }
     }
 
     IEnumerator UpdateTextNextFrame()
     {
-        yield return null;
-        interactionText.text = AreAllLeversFlipped() ? "[E] Close Door" : "[E] Open Door";
+        yield return null;  // Wait for one frame
+        interactionText.text = doorIsOpen ? "[E] Close Door" : "[E] Open Door";  // Update text based on door state
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            TogglePlayerProximity(true);
+            TogglePlayerProximity(true);  // Player has entered the trigger area
         }
     }
 
@@ -42,22 +50,28 @@ public class DoorInteraction : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            TogglePlayerProximity(false);
+            TogglePlayerProximity(false);  // Player has left the trigger area
         }
     }
 
     private void TogglePlayerProximity(bool isNear)
     {
         playerIsNear = isNear;
-        interactionText.gameObject.SetActive(isNear);  // Show or hide the UI text based on proximity
+        interactionText.gameObject.SetActive(isNear);  // Show/hide UI text based on player proximity
     }
 
     private bool AreAllLeversFlipped()
     {
+        // Check the state of all levers
         foreach (var lever in levers)
         {
-            if (!lever.isFlipped) return false;  // If any lever is not flipped, return false
+            if (!lever.isFlipped) return false;  // Return false if any lever is not flipped
         }
-        return true;  // All levers are flipped
+        return true;  // Return true if all levers are flipped
+    }
+
+    private void CompleteLevel()
+    {
+        Debug.Log("Level Completed!");  // Log level completion
     }
 }
