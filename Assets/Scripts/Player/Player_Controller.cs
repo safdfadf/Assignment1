@@ -47,17 +47,14 @@ public class Player_Controller : MonoBehaviour
         HandleSprint();
         HandleGroundAndFurniture();
         // Visualize SphereCast for debugging
-
-
     }
+
+
 
     void HandleMovement()
     {// Player Input
-
-
         HorizontalInput = Input.GetAxis("Horizontal");
         VerticalInput = Input.GetAxis("Vertical");
-
         float movementAmount = Mathf.Clamp01(Mathf.Abs(HorizontalInput) + Mathf.Abs(VerticalInput));
         movement = new Vector3(HorizontalInput, 0, VerticalInput).normalized;
 
@@ -72,10 +69,7 @@ public class Player_Controller : MonoBehaviour
         {
             moving = false;// stops movemnt if the player is in air 
         }
-
-
     }
-
     void UpdatePlayerVelocity()// Player Movement
     {
         if (stamina_System.Stamina > 0 && isSprinting)
@@ -87,8 +81,9 @@ public class Player_Controller : MonoBehaviour
                 currentspeed = speed * speedmultiplier;
                 animator.SetBool("IsSprinting", true);
             }
-
         }
+
+
         else
         {
             currentspeed = speed;
@@ -99,7 +94,7 @@ public class Player_Controller : MonoBehaviour
 
     void UpdatePlayerRotation()// Player Rotation
     {
-        Quaternion targetRotation = Quaternion.LookRotation(movement);
+        Quaternion targetRotation = Quaternion.LookRotation(-movement);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationspeed * Time.deltaTime);
     }
 
@@ -107,7 +102,6 @@ public class Player_Controller : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && (isonground || isonFurniture)) // checks player Input for jump
         {
-
             Jump();
             animator.SetBool("IsJumping", true);
         }
@@ -144,7 +138,6 @@ public class Player_Controller : MonoBehaviour
     void StartSprinting()
     {
         isSprinting = true;
-
     }
 
     void StopSprinting()
