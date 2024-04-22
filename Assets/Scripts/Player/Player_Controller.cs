@@ -18,8 +18,6 @@ public class Player_Controller : MonoBehaviour
     private float currentspeed;
     [SerializeField] private float speedmultiplier;
     public bool isSprinting = false;
-    private bool isclimbing = false;
-    [SerializeField] private float climbspeed = 2f;// speed while climbing
     bool isonFurniture;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask FurnitureLayer;
@@ -32,7 +30,7 @@ public class Player_Controller : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-
+        isSprinting = false;
     }
 
     // Update is called once per frame
