@@ -9,6 +9,7 @@ public class LeverTrigger : MonoBehaviour
     public TextMeshProUGUI feedbackText;  // TextMeshPro UI Text for displaying feedback messages
     public LeverAnimation leverAnimationScript;  // Reference to the lever animation script
     public Player_Inventory playerInventory;  // Reference to the player's inventory script
+    public bool isFlipped = false;  // Track whether the lever is flipped
 
     void OnTriggerEnter(Collider other)
     {
@@ -41,6 +42,7 @@ public class LeverTrigger : MonoBehaviour
         if (playerInventory != null && playerInventory.numberofGears >= 5)
         {
             leverAnimationScript.ToggleLever();  // Flip the lever
+            isFlipped = !isFlipped;  // Toggle the flipped state
             playerInventory.UseGears(5);  // Remove 5 gears from the player's inventory
             feedbackText.gameObject.SetActive(false);  // Hide feedback text after successful activation
         }

@@ -1,32 +1,33 @@
 using UnityEngine;
-using UnityEngine.UI; 
-using System.Collections; 
+using UnityEngine.UI;
+using System.Collections;
 
 public class DoorInteraction : MonoBehaviour
 {
-    public LeftDoorController leftDoor;
-    public RightDoorController rightDoor;
-    public Text interactionText; 
+    public LeverTrigger[] levers;  // Array of all levers that control the door
+    public Text interactionText;
     private bool playerIsNear = false;
 
     void Update()
     {
-        // Check if the player is near and presses the 'E' key
         if (playerIsNear && Input.GetKeyDown(KeyCode.E))
         {
-            // Toggle the state of both doors
-            leftDoor.ToggleDoor();
-            rightDoor.ToggleDoor();
-
-            
-            StartCoroutine(UpdateTextNextFrame());
+            if (AreAllLeversFlipped())
+            {
+                // Code to open the door
+                StartCoroutine(UpdateTextNextFrame());
+            }
+            else
+            {
+                interactionText.text = "You need to flip all levers to open the doors";  // Show message if not all levers are flipped
+            }
         }
     }
 
     IEnumerator UpdateTextNextFrame()
     {
-        yield return null; 
-        UpdateInteractionText(); 
+        yield return null;
+        interactionText.text = AreAllLeversFlipped() ? "[E] Close Door" : "[E] Open Door";
     }
 
     private void OnTriggerEnter(Collider other)
@@ -48,24 +49,15 @@ public class DoorInteraction : MonoBehaviour
     private void TogglePlayerProximity(bool isNear)
     {
         playerIsNear = isNear;
-        interactionText.gameObject.SetActive(isNear); // Show or hide the UI text based on proximity
-
-        if (isNear)
-        {
-            UpdateInteractionText(); 
-        }
+        interactionText.gameObject.SetActive(isNear);  // Show or hide the UI text based on proximity
     }
 
-    
-    void UpdateInteractionText()
+    private bool AreAllLeversFlipped()
     {
-        if (leftDoor.isOpen || rightDoor.isOpen) // Check if any of the doors are open
+        foreach (var lever in levers)
         {
-            interactionText.text = "[E] Close Door"; // Doors are open, show "Close" text
+            if (!lever.isFlipped) return false;  // If any lever is not flipped, return false
         }
-        else
-        {
-            interactionText.text = "[E] Open Door"; // Doors are closed, show "Open" text
-        }
+        return true;  // All levers are flipped
     }
 }
