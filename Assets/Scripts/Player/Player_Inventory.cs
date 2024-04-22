@@ -64,8 +64,8 @@ public class Player_Inventory : MonoBehaviour
             light.enabled = true;  // Turn each light on
         }
         Anim.SetBool("Victory", true);
-        PlayWinMusic();
-        Invoke("CompleteLevel", 5);  // Allow some time for animations and music to play
+        PlayWinMusic();  // Play win music
+        Invoke("CompleteLevel", 2f);  // Delay the level completion to allow win animation/music
     }
 
     public void GearsCollected()

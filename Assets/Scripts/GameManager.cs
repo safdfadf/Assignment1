@@ -15,6 +15,12 @@ public class GameManager : MonoBehaviour
     public void LevelWon()
     {
         LevelCompleteUI.SetActive(true);
+        Invoke("NextLevel", 2f);
+        
+    }
+    void NextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
     }
 
     // Handle game over logic
