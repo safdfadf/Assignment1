@@ -754,11 +754,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7579345925060956168, guid: eec34a4a01e646848b906251e949b807, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.455272
+      value: 1.7631694
       objectReference: {fileID: 0}
     - target: {fileID: 7579345925060956168, guid: eec34a4a01e646848b906251e949b807, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.0753944
+      value: -4.3190393
       objectReference: {fileID: 0}
     - target: {fileID: 7579345925060956168, guid: eec34a4a01e646848b906251e949b807, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1139,7 +1139,6 @@ MonoBehaviour:
     RefIds:
     - rid: 6665752354234040321
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
-      data: 
 --- !u!114 &356002095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1676,7 +1675,6 @@ MonoBehaviour:
     RefIds:
     - rid: 6665752354234040321
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
-      data: 
 --- !u!114 &442026802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2748,7 +2746,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 881468761}
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -0.39300013, y: 2.455272, z: -3.0753944}
+  m_LocalPosition: {x: -0.39300013, y: 1.7631694, z: -4.3190393}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3057,7 +3055,6 @@ MonoBehaviour:
     RefIds:
     - rid: 6665752354234040321
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
-      data: 
 --- !u!114 &1142409152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5284,7 +5281,6 @@ MonoBehaviour:
     RefIds:
     - rid: 6665752354234040321
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
-      data: 
 --- !u!114 &1679968017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5832,8 +5828,8 @@ MonoBehaviour:
   m_ZDamping: 1
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
-  m_ScreenY: 0.65
-  m_CameraDistance: 2.65
+  m_ScreenY: 0.4
+  m_CameraDistance: 3.04
   m_DeadZoneWidth: 0.2
   m_DeadZoneHeight: 0.2
   m_DeadZoneDepth: 0
@@ -6312,7 +6308,6 @@ MonoBehaviour:
     RefIds:
     - rid: 6665752354234040321
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
-      data: 
 --- !u!114 &2094586741
 MonoBehaviour:
   m_ObjectHideFlags: 0
