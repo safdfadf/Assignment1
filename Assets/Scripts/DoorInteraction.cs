@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;  // Make sure this namespace is included if you're using SceneManager
 using System.Collections;
+using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
 
 public class DoorInteraction : MonoBehaviour
 {
@@ -73,5 +75,8 @@ public class DoorInteraction : MonoBehaviour
     private void CompleteLevel()
     {
         Debug.Log("Level Completed!");  // Log level completion
+        // Additional level completion logic can go here (e.g., load a new scene)
+        // Uncomment below to load a new scene
+        // SceneManager.LoadScene("NextLevel");
     }
 }
