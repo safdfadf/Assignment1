@@ -20,6 +20,7 @@ public class PauseMenuController : MonoBehaviour
                 PauseGame();
             }
         }
+        
     }
 
     public void ResumeGame()
@@ -43,6 +44,10 @@ public class PauseMenuController : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+    public void Play()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
 }
