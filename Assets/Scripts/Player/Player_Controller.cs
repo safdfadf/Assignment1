@@ -2,9 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+/// <summary>
+/// This name of the file is very poor. I fixed it in my branch and you could have merged changes in. Please review good coding practices in future.
+/// </summary>
 public class Player_Controller : MonoBehaviour
 {
+    /// <summary>
+    /// These variable names are completely inconsistent and seem to have come about through random choice. You need to be thoughtful about your decisions when making games.
+    /// </summary>
     [SerializeField] private float speed;
     private float HorizontalInput;
     private float VerticalInput;
@@ -51,7 +56,9 @@ public class Player_Controller : MonoBehaviour
     }
 
 
-
+/// <summary>
+/// Why does this not use the new input system? The way you have set up this program, it works on controller for some things and not others.
+/// </summary>
     void HandleMovement()
     {// Player Input
         HorizontalInput = Input.GetAxis("Horizontal");
@@ -71,6 +78,9 @@ public class Player_Controller : MonoBehaviour
             moving = false;// stops movemnt if the player is in air 
         }
     }
+/// <summary>
+/// You should always be collecting input in your update, and then applying changes to your rigid body in the FixedUpdate method.
+/// </summary>
     void UpdatePlayerVelocity()// Player Movement
     {
         if (stamina_System.Stamina > 0 && isSprinting)
@@ -90,7 +100,8 @@ public class Player_Controller : MonoBehaviour
             currentspeed = speed;
         }
 
-        playerRb.velocity = movement * currentspeed;
+        playerRb.velocity = movement * currentspeed; 
+        
     }
 
     void UpdatePlayerRotation()// Player Rotation
@@ -120,7 +131,9 @@ public class Player_Controller : MonoBehaviour
     {
         DisableGroundCheck = false;
     }
-
+    /// <summary>
+    /// Should be handled by input system
+    /// </summary>
     void HandleSprint()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))// checks player Input for sprint
@@ -175,6 +188,9 @@ public class Player_Controller : MonoBehaviour
         }
 
     }
+    /// <summary>
+    /// This is useful
+    /// </summary>
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

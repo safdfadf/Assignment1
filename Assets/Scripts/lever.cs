@@ -1,5 +1,7 @@
 using UnityEngine;
-
+/// <summary>
+/// Why did you end up using an interface here? Just seems like you took code from somewhere
+/// </summary>
 public interface ILever
 {
     void ActivateLever();

@@ -10,7 +10,9 @@ public class DoorInteraction : MonoBehaviour
 
     private bool playerIsNear = false;
     private bool doorIsOpen = false;
-
+    /// <summary>
+    /// Your input code and checks should be in one script and then directed to other scripts; the way you have done it means you have E being checked for in a bunch of different places, which could lead to issues.
+    /// </summary>
     void Update()
     {
         if (playerIsNear && Input.GetKeyDown(KeyCode.E))
@@ -58,13 +60,18 @@ public class DoorInteraction : MonoBehaviour
             TogglePlayerProximity(false);
         }
     }
-
+    /// <summary>
+    /// good
+    /// </summary>
+    /// <param name="isNear"></param>
     private void TogglePlayerProximity(bool isNear)
     {
         playerIsNear = isNear;
         interactionText.gameObject.SetActive(isNear); // Show/hide UI text based on player proximity
     }
-
+    /// <summary>
+    /// what is this even for?
+    /// </summary>
     private void CompleteLevel()
     {
         Debug.Log("Level Completed!"); // Log level completion

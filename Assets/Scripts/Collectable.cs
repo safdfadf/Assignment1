@@ -29,7 +29,10 @@ public class Collectable : MonoBehaviour
             StartCoroutine(DisappearAndRespawn());
         }
     }
-
+    /// <summary>
+    /// Why do these respawn?! This means that the level can never be beaten if the objective was to have them be collected 
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator DisappearAndRespawn()
     {
         collectableCollider.enabled = false;
